@@ -1,0 +1,13 @@
+.control-panel {
+  align-items: center;   
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;    
+  width: 100%;    
+}
+
+@media screen and (max-width: 320px) {
+  .control-panel {
+    flex-direction: column;
+  }
+}

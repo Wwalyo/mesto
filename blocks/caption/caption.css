@@ -1,0 +1,11 @@
+.caption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 21px;
+  margin-right: 15px;
+  max-width: 246px;
+  width: 100%;
+}
+
