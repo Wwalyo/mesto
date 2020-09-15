@@ -17,7 +17,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 425px) {
   .content-form__save-button {
     height: 46px;
     width: 238px;
