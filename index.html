@@ -15,17 +15,13 @@
         <section class="control-panel">
           <div class="profile">
             <img src="images/profile-photo.jpg" alt="Фото пользователя" class="profile__photo">
-            <div class="profile-info">
-              <h1 class="profile-info__name">Жак-Ив Кусто</h1>
-              <button class="edit-button">
-                <img class="edit-button__image" src="images/edit-icon.svg" alt="Редактировать профиль">  
-              </button>
-              <p class="profile-info__description">Исследователь океана</p>
+            <div class="profile__info">
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <button class="profile__edit-button"></button>
+              <p class="profile__description">Исследователь океана</p>
             </div>
           </div>
-          <button class="add-card-button">
-            <img class="add-card-button__image" src="images/add-icon.svg" alt="Добавить карточку">  
-          </button>
+          <button class="control-panel__add-button"></button>
         </section>
         <section class="cards">
           <div class="card">
@@ -88,12 +84,12 @@
       <section class="popup">
         <div class="popup__container">
           <button class="popup__close-button"></button>
-            <form class="content-form" name="content-form">
-              <h2 class="content-form__title">Редактировать профиль</h2>
-              <input type="text" class="content-form__input" value="Жак-Ив Кусто" name="name-input">
-              <input type="text" class="content-form__input" value="Исследователь океана" name="description-input">
-              <input type="submit" class="content-form__save-button" value="Сохранить">
-            </form>
+          <form class="content-form" name="content-form">
+            <h2 class="content-form__title">Редактировать профиль</h2>
+            <input type="text" class="content-form__input" value="Жак-Ив Кусто" name="name-input">
+            <input type="text" class="content-form__input" value="Исследователь океана" name="description-input">
+            <button type="submit" class="content-form__save-button">Сохранить</button>
+          </form>
         </div>
       </section>
     </div>

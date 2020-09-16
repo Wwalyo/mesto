@@ -1,8 +1,0 @@
-.edit-button__image {
-  height: 10px;
-  position: absolute;
-  right: 20%;
-  top: 50%;
-  transform: translate(0, -50%);
-  width: 10px;
-}
