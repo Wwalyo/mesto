@@ -19,3 +19,9 @@
     vertical-align: baseline;
   }
 }
+ 
+@media screen and (min-width: 656px) and (max-width: 701px) {
+  .profile__name {
+    max-width: 281px;
+  }
+}
