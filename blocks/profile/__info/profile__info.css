@@ -8,7 +8,7 @@
   max-width: 500px;
 }
 
-@media screen and (max-width: 482px) {
+@media screen and (max-width: 602px) {
   .profile__info {
     justify-content: center;
     margin: 0;
@@ -16,8 +16,9 @@
   }
 }
 
-@media screen and (min-width: 483px) and (max-width: 602px) {
+@media screen and (min-width: 483px) and (max-width: 656px) {
   .profile__info {
     justify-content: center;
+    max-width: 400px;
   }
 }
