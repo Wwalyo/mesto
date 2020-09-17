@@ -20,6 +20,8 @@
 @media screen and (max-width: 482px) {
   .content-form__save-button {
     height: 46px;
+    margin-top: 45px;
     width: 238px;
+
   }
 }

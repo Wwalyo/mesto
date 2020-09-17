@@ -14,7 +14,6 @@
 
 @media screen and (max-width: 482px) {
   .content-form__input {
-    margin-top: 30px;
     width: 236px;
   }
 }
