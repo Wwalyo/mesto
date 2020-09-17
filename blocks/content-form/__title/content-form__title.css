@@ -9,7 +9,7 @@
   white-space: nowrap;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 482px) {
   .content-form__title {
     align-self: auto;
     font-weight: 900;

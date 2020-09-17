@@ -10,11 +10,10 @@
   margin-top: 45px;
   max-width: 882px; 
   min-width: 320px;
-  overflow-x: hidden;
   width: 100%;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 482px) {
   .page {
     margin-top: 28px;
   }
