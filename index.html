@@ -24,49 +24,6 @@
           <button type="button" class="control-panel__add-button"></button>
         </section>
         <section class="cards">
-          <div class="card">
-            <img src="images/karchaevsk.png" class="card__image" alt="Карачаевск">
-            <div class="card__caption">
-              <h2 class="card__name">Карачаевск</h2>
-              <button type="button" class="card__like-button"></button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="images/elbrus.png" class="card__image" alt="Гора Эльбрус">
-            <div class="card__caption">
-              <h2 class="card__name">Гора Эльбрус</h2>
-              <button type="button" class="card__like-button">
-              </button>
-            </div>  
-          </div>
-          <div class="card">
-            <img src="images/dombay.png" class="card__image" alt="Домбай">
-            <div class="card__caption">
-              <h2 class="card__name">Домбай</h2>
-              <button type="button" class="card__like-button"></button>
-            </div>  
-          </div>
-          <div class="card">
-            <img src="images/elbrus.png" class="card__image" alt="Гора Эльбрус">
-            <div class="card__caption">
-              <h2 class="card__name">Гора Эльбрус</h2>
-              <button type="button" class="card__like-button"></button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="images/dombay.png" class="card__image" alt="Домбай">
-            <div class="card__caption">
-              <h2 class="card__name">Домбай</h2>
-              <button type="button" class="card__like-button"></button>
-            </div>
-          </div>
-          <div class="card">
-            <img src="images/karchaevsk.png" class="card__image" alt="Карачаевск">
-            <div class="card__caption">
-              <h2 class="card__name">Карачаево-Черкесск</h2>
-              <button type="button" class="card__like-button"></button>
-            </div>
-          </div>
         </section>
       </main> 
       <footer class="footer">
@@ -84,6 +41,16 @@
         </div>
       </section>
     </div>
+    <template id="card">
+      <div class="card">
+      <img src="" class="card__image" alt="">
+      <div class="card__caption">
+        <h2 class="card__name"></h2>
+        <button type="button" class="card__like-button"></button>
+        <button type="button" class="card__trash-button"></button>
+      </div>
+      </div>
+    </template>
     <script src="scripts/index.js" defer></script>
 </body>
 </html>

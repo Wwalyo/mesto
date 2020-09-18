@@ -11,8 +11,51 @@ const nameInput = formElement.querySelector('.content-form__input[name="name-inp
 const jobInput = formElement.querySelector('.content-form__input[name="description-input"]');
 const currentName = profile.querySelector('.profile__name');
 const currentJob = profile.querySelector('.profile__description');
-console.log(nameInput);
-console.log(jobInput);
+const cardTemplate = document.querySelector('#card').content;
+const cardsContainer = document.querySelector('.cards');
+
+const initialCards = [
+  {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+
+
+const addCard = (item) => {
+  const cardElement = cardTemplate.cloneNode(true);
+  cardElement.querySelector('.card__image').src = item.link;
+  cardElement.querySelector('.card__name').textContent = item.name;
+  cardsContainer.append(cardElement);
+}
+
+const addCards = (items) => {
+  items.forEach(addCard);
+}
+
+addCards(initialCards);
+
 
 const popupOpen = (event) => {
   popup.classList.add('popup_is-opened');
