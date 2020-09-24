@@ -2,7 +2,9 @@ console.log(`подключили скрипт`);
 
 const popup = document.querySelector('.popup');
 const imagePopup = document.querySelector('.image-popup');
-const popupOpenButton = document.querySelector('.profile__edit-button');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const addCardButton = document.querySelector('.control-panel__add-button');
+const popupTitle = popup.querySelector('.content-form__title');
 const popupCloseButton = popup.querySelector('.popup__close-button');
 const popupSaveButton = popup.querySelector('.content-form__save-button');
 const profile = document.querySelector('.profile__info');
@@ -15,7 +17,6 @@ const currentJob = profile.querySelector('.profile__description');
 const cardTemplate = document.querySelector('#card').content;
 const popupTemplate = document.querySelector('#popup').content;
 const cardsContainer = document.querySelector('.cards');
-
 const initialCards = [
   {
       name: 'Архыз',
@@ -57,7 +58,6 @@ const addCard = (item) => {
   const deleteButton = cardElement.querySelector('.card__trash-button');
   const imageBtn = cardElement.querySelector('.card__image');
   const imageCloseBtn = imagePopup.querySelector('.popup__close-button');
-  console.log(likeButton);
   likeButton.addEventListener('click', function (evt) {
     evt.target.classList.toggle('card__like-button_active');
   });
@@ -68,9 +68,10 @@ const addCard = (item) => {
   imageBtn.addEventListener('click', function (evt) {
     imagePopup.classList.add('image-popup_is-opened');
     imagePopup.querySelector('.image-popup__item').src =  item.link;
+    imagePopup.querySelector('.image-popup__title').textContent = item.name;
   });
   imageCloseBtn.addEventListener('click', popupClose, false);
-  cardsContainer.append(cardElement);
+  cardsContainer.prepend(cardElement);
 }
 
 const addCards = (items) => {
@@ -80,22 +81,43 @@ const addCards = (items) => {
 addCards(initialCards);
 
 const popupOpen = (event) => {
-
-  popup.classList.add('popup_is-opened');
-  nameInput.value = currentName.textContent;
-  jobInput.value = currentJob.textContent;
+  if (event.target === profileEditButton) {
+    popup.classList.add('popup_is-opened');
+    nameInput.value = currentName.textContent;
+    jobInput.value = currentJob.textContent;
+    popupTitle.textContent = 'Редактировать профиль';
+    popupSaveButton.textContent = 'Сохранить';
+  } else if (event.target === addCardButton) {
+    popup.classList.add('popup_is-opened');
+    nameInput.value = '';
+    jobInput.type = 'url';
+    jobInput.value = '';
+    popupTitle.textContent = 'Новое место';
+    popupSaveButton.textContent = 'Создать';
+  }
 };
+
 
 
 
 const formSubmitHandler = (event) => {
     event.preventDefault();
-    currentName.textContent = nameInput.value;
-    currentJob.textContent = jobInput.value;
-    popupClose();
+    if (popupTitle.textContent === 'Редактировать профиль') {
+      currentName.textContent = nameInput.value;
+      currentJob.textContent = jobInput.value;
+      popupClose();  
+    } else {
+      const card = {};
+      card.name = nameInput.value;
+      card.link = jobInput.value;
+      console.log(card.link);
+      addCard(card);
+      popupClose();  
+    }
 }
 
 formElement.addEventListener('submit', formSubmitHandler);
-popupOpenButton.addEventListener('click', popupOpen, false);
+profileEditButton.addEventListener('click', popupOpen, false);
 popupCloseButton.addEventListener('click', popupClose, false);
+addCardButton.addEventListener('click', popupOpen, false);
 

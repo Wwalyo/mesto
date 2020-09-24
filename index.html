@@ -40,9 +40,21 @@
           </form>
         </div>
       </section>
+      <section class="card-popup">
+        <div class="card-popup__container">
+          <button type="button" class="card-popup__close-button"></button>
+          <form class="content-form" name="content-form">
+            <h2 class="content-form__title">Новое место</h2>
+            <input type="text" class="content-form__input" value="" name="title-input">
+            <input type="url" class="content-form__input" value="" name="url-input">
+            <button type="submit" class="content-form__save-button">Создать</button>
+          </form>
+        </div>
+      </section>
       <div class="image-popup">
         <div class="image-popup__container">
           <img src="" class="image-popup__item" alt="">
+          <h4 class="image-popup__title"></h4>
           <button type="button" class="popup__close-button"></button>
         </div>
       </div>
@@ -58,17 +70,15 @@
       </div>
     </template>
     <template id="popup">
-      <section class="popup">
-        <div class="popup__container">
-          <button type="button" class="popup__close-button"></button>
-          <form class="content-form" name="content-form">
-            <h2 class="content-form__title">Редактировать профиль</h2>
-            <input type="text" class="content-form__input" value="Жак-Ив Кусто" name="name-input">
-            <input type="text" class="content-form__input" value="Исследователь океана" name="description-input">
-            <button type="submit" class="content-form__save-button">Сохранить</button>
-          </form>
-        </div>
-      </section>
+      <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <form class="content-form" name="content-form">
+          <h2 class="content-form__title"></h2>
+          <input type="text" class="content-form__input" value="" name="name-input">
+          <input type="text" class="content-form__input" value="" name="description-input">
+          <button type="submit" class="content-form__save-button"></button>
+        </form>
+      </div>
     </template>
     <script src="scripts/index.js" defer></script>
 </body>
