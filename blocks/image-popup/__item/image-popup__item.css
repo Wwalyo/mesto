@@ -1,4 +1,5 @@
 .image-popup__item {
   max-height: 75vh;
   max-width: 75vw;
+  opacity: 1;
 }

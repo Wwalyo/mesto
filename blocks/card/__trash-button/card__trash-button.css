@@ -11,3 +11,8 @@
   top: 23px;
   width: 19px;       
 }
+
+.card__trash-button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
