@@ -41,15 +41,16 @@ const initialCards = [
 ];
 
 
-const popupClose = (event) => {
+const closePopup = (event) => {
   popup.classList.remove('popup_is-opened');
   imagePopup.classList.remove('image-popup_is-opened');
 };
 
-const addCard = (item) => {
+const getCardElement = (item) => {
   const cardElement = cardTemplate.cloneNode(true);
-  cardElement.querySelector('.card__image').src = item.link;
-  cardElement.querySelector('.card__image').alt = item.name;
+  const cardImage = cardElement.querySelector('.card__image');
+  cardImage.src = item.link;
+  cardImage.alt = item.name;
   cardElement.querySelector('.card__name').textContent = item.name;
   const likeButton = cardElement.querySelector('.card__like-button');
   const deleteButton = cardElement.querySelector('.card__trash-button');
@@ -59,41 +60,53 @@ const addCard = (item) => {
     evt.target.classList.toggle('card__like-button_active');
   });
   deleteButton.addEventListener('click', function () {
-  const item = deleteButton.closest('.card');
-  item.remove();
+    deleteButton.closest('.card').remove();
   });
   imageBtn.addEventListener('click', function (evt) {
     imagePopup.classList.add('image-popup_is-opened');
     imagePopup.querySelector('.image-popup__item').src =  item.link;
     imagePopup.querySelector('.image-popup__title').textContent = item.name;
   });
-  imageCloseBtn.addEventListener('click', popupClose, false);
-  cardsContainer.prepend(cardElement);
+  imageCloseBtn.addEventListener('click', closePopup, false);
+  return cardElement;
+}
+
+const renderCard = (card) => {
+  cardsContainer.prepend(card);  
 }
 
 const addCards = (items) => {
-  items.forEach(addCard);
+  items.forEach(renderCard(getCardElement(item)));
 }
 
 addCards(initialCards);
 
-const popupOpen = (event) => {
+const setupEditProfile = (event) => {
+  nameInput.value = currentName.textContent;
+  jobInput.type = 'text';
+  jobInput.value = currentJob.textContent;
+  popupTitle.textContent = 'Редактировать профиль';
+  popupSaveButton.textContent = 'Сохранить';
+}
+
+const setupAddCard = (event) => {
+  nameInput.style.color = '#C4C4C4';
+  jobInput.style.color = '#C4C4C4';
+  nameInput.value = 'Название';
+  jobInput.type = 'url';
+  jobInput.value = 'Ссылка на картинку';
+  popupTitle.textContent = 'Новое место';
+  popupSaveButton.textContent = 'Создать';
+}
+
+const openPopup = (event) => {
   if (event.target === profileEditButton) {
     popup.classList.add('popup_is-opened');
-    nameInput.value = currentName.textContent;
-    jobInput.type = 'text';
-    jobInput.value = currentJob.textContent;
-    popupTitle.textContent = 'Редактировать профиль';
-    popupSaveButton.textContent = 'Сохранить';
+    setupEditProfile(event);
+
   } else if (event.target === addCardButton) {
     popup.classList.add('popup_is-opened');
-    nameInput.style.color = '#C4C4C4';
-    jobInput.style.color = '#C4C4C4';
-    nameInput.value = 'Название';
-    jobInput.type = 'url';
-    jobInput.value = 'Ссылка на картинку';
-    popupTitle.textContent = 'Новое место';
-    popupSaveButton.textContent = 'Создать';
+    setupAddCard(event);
   }
 };
 
@@ -102,19 +115,19 @@ const formSubmitHandler = (event) => {
     if (popupTitle.textContent === 'Редактировать профиль') {
       currentName.textContent = nameInput.value;
       currentJob.textContent = jobInput.value;
-      popupClose();  
+      closePopup();  
     } else {
       const card = {};
       card.name = nameInput.value;
       card.link = jobInput.value;
       console.log(card.link);
-      addCard(card);
-      popupClose();  
+      getCardElement(card);
+      closePopup();  
     }
 }
 
 formElement.addEventListener('submit', formSubmitHandler);
-profileEditButton.addEventListener('click', popupOpen, false);
-popupCloseButton.addEventListener('click', popupClose, false);
-addCardButton.addEventListener('click', popupOpen, false);
+profileEditButton.addEventListener('click', openPopup, false);
+popupCloseButton.addEventListener('click', closePopup, false);
+addCardButton.addEventListener('click', openPopup, false);
 
