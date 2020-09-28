@@ -46,7 +46,7 @@ const closePopup = (event) => {
   imagePopup.classList.remove('image-popup_is-opened');
 };
 
-const getCardElement = (item) => {
+const addCard = (item) => {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   cardImage.src = item.link;
@@ -68,15 +68,11 @@ const getCardElement = (item) => {
     imagePopup.querySelector('.image-popup__title').textContent = item.name;
   });
   imageCloseBtn.addEventListener('click', closePopup, false);
-  return cardElement;
-}
-
-const renderCard = (card) => {
-  cardsContainer.prepend(card);  
+  cardsContainer.prepend(cardElement);
 }
 
 const addCards = (items) => {
-  items.forEach(renderCard(getCardElement(item)));
+  items.forEach(addCard);
 }
 
 addCards(initialCards);
@@ -121,7 +117,7 @@ const formSubmitHandler = (event) => {
       card.name = nameInput.value;
       card.link = jobInput.value;
       console.log(card.link);
-      getCardElement(card);
+      addCard(card);
       closePopup();  
     }
 }
