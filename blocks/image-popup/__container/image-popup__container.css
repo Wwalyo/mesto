@@ -1,4 +1,5 @@
 .image-popup__container {
+<<<<<<< HEAD
   background-color: none;
   border-radius: 0;
   border: none;
@@ -8,3 +9,14 @@
   max-width: 75vw;
   position: relative;
 }
+=======
+    background-color: none;
+    border-radius: 0;
+    border: 0 4px 4px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    max-height: 75vh;
+    margin-top: 90px;
+    max-width: 75vw;
+    position: relative;
+  }
+>>>>>>> 8d12d59ac725e253566abcd8dc73484129e5dbbc

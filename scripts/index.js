@@ -6,14 +6,12 @@ const popupTitle = popup.querySelector('.content-form__title');
 const popupCloseButton = popup.querySelector('.popup__close-button');
 const popupSaveButton = popup.querySelector('.content-form__save-button');
 const profile = document.querySelector('.profile__info');
-const popupDescription = popup.querySelector('.content-form__description');
 const formElement =  popup.querySelector('.content-form');
 const nameInput = formElement.querySelector('.content-form__input[name="name-input"]');
 const jobInput = formElement.querySelector('.content-form__input[name="description-input"]');
 const currentName = profile.querySelector('.profile__name');
 const currentJob = profile.querySelector('.profile__description');
 const cardTemplate = document.querySelector('#card').content;
-const popupTemplate = document.querySelector('#popup').content;
 const cardsContainer = document.querySelector('.cards');
 const initialCards = [
   {
@@ -41,6 +39,7 @@ const initialCards = [
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
 
 const popupClose = (event) => {
   popup.classList.remove('popup_is-opened');
@@ -82,21 +81,21 @@ const popupOpen = (event) => {
   if (event.target === profileEditButton) {
     popup.classList.add('popup_is-opened');
     nameInput.value = currentName.textContent;
+    jobInput.type = 'text';
     jobInput.value = currentJob.textContent;
     popupTitle.textContent = 'Редактировать профиль';
     popupSaveButton.textContent = 'Сохранить';
   } else if (event.target === addCardButton) {
     popup.classList.add('popup_is-opened');
-    nameInput.value = '';
+    nameInput.style.color = '#C4C4C4';
+    jobInput.style.color = '#C4C4C4';
+    nameInput.value = 'Название';
     jobInput.type = 'url';
-    jobInput.value = '';
+    jobInput.value = 'Ссылка на картинку';
     popupTitle.textContent = 'Новое место';
     popupSaveButton.textContent = 'Создать';
   }
 };
-
-
-
 
 const formSubmitHandler = (event) => {
     event.preventDefault();
