@@ -1,5 +1,3 @@
-console.log(`подключили скрипт`);
-
 const popup = document.querySelector('.popup');
 const imagePopup = document.querySelector('.image-popup');
 const profileEditButton = document.querySelector('.profile__edit-button');

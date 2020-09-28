@@ -1,10 +1,10 @@
 .image-popup__container {
-    background-color: none;
-    border-radius: 0;
-    border: none;
-    box-sizing: border-box;
-    max-height: 75vh;
-    margin-top: 90px;
-    max-width: 75vw;
-    position: relative;
-  }
+  background-color: none;
+  border-radius: 0;
+  border: none;
+  box-sizing: border-box;
+  max-height: 75vh;
+  margin-top: 90px;
+  max-width: 75vw;
+  position: relative;
+}
