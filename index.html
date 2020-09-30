@@ -29,17 +29,28 @@
       <footer class="footer">
         <p class="footer__copyright">&copy;2020. Mesto Russia</p>
       </footer>
-      <section class="popup">
+      <div class="popup popup_type_profile">
         <div class="popup__container">
           <button type="button" class="popup__close-button"></button>
-          <form class="content-form" name="content-form">
+          <form class="content-form content-form_type_profile" name="content-form">
             <h2 class="content-form__title">Редактировать профиль</h2>
-            <input type="text" class="content-form__input" placeholder="Имя" name="name-input">
-            <input type="text" class="content-form__input"placeholder="Профессия" name="description-input">
+            <input type="text" class="content-form__input" placeholder="Имя" name="name-input" required>
+            <input type="text" class="content-form__input"placeholder="Профессия" name="description-input" required>
             <button type="submit" class="content-form__save-button">Сохранить</button>
           </form>
         </div>
-      </section>
+      </div>
+      <div class="popup popup_type_new-card">
+        <div class="popup__container">
+            <button type="button" class="popup__close-button"></button>
+            <form class="content-form content-form_type_new-card" name="new-place">
+                <h2 class="content-form__title">Новое место</h3>
+                <input type="text" name="place-name" class="content-form__input" placeholder="Название" required>
+                <input type="url" name="link" class="content-form__input" placeholder="Ссылка на картинку" required>
+                <button type="submit" class="content-form__save-button">Создать</button>
+            </form>
+        </div>
+    </div>
       <div class="image-popup">
         <div class="image-popup__container">
           <img src="" class="image-popup__item" alt="">
