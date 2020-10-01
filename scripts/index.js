@@ -85,6 +85,7 @@ addCards(initialCards);
 
 const openPopup = (modalWindow) => {
   modalWindow.classList.add('popup_is-opened');
+
 }
 
 const setupEditProfile = (event) => {
@@ -124,10 +125,77 @@ const formSubmitHandler = (event) => {
   }
 }
 
+const closeESC = (evt) => {
+  if (evt.keyCode === 27) {
+   closePopup(cardPopup);
+   closePopup(imagePopup);
+   closePopup(profilePopup);
+  }
+}
+
+const closeByOverlay = (evt) => {
+  if (evt.target !== evt.currentTarget) {
+    return
+  }
+  closePopup(evt.currentTarget);
+}
+
+// const showInputError = (formElement, inputElement, errorMessage) => {
+//   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+//   inputElement.classList.add('form__input_type_error');
+//   errorElement.textContent = errorMessage;
+//   errorElement.classList.add('form__input-error_active');
+// };
+
+// const hideInputError = (formElement, inputElement) => {
+//   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+//   inputElement.classList.remove('form__input_type_error');
+//   errorElement.classList.remove('form__input-error_active');
+//   errorElement.textContent = '';
+// };
+
+// const checkInputValidity = (formElement, inputElement) => {
+//   if (!inputElement.validity.valid) {
+//     showInputError(formElement, inputElement, inputElement.validationMessage);
+//   } else {
+//     hideInputError(formElement, inputElement);
+//   }
+// };
+
+// const setEventListeners = (formElement) => {
+//   const inputList = Array.from(formElement.querySelectorAll('.content-form__input'));
+//   inputList.forEach((inputElement) => {
+//     inputElement.addEventListener('input', function () {
+//       checkInputValidity(formElement, inputElement);
+//     });
+//   });
+// };
+
+// const enableValidation = () => {
+//   const formList = Array.from(document.querySelectorAll('.popup'));
+//   formList.forEach((formElement) => {
+//   formElement.addEventListener('submit', (evt) => {
+//     evt.preventDefault();
+//   });
+
+//     setEventListeners(formElement);
+// });
+// }
+
+// enableValidation();
+
+
+
+
 profileFormElement.addEventListener('submit', formSubmitHandler);
 cardFormElement.addEventListener('submit', formSubmitHandler);
 profileEditButton.addEventListener('click', setupEditProfile);
 addCardButton.addEventListener('click', setupAddCard);
-popupProfileCloseButton.addEventListener('click', () => closePopup(popup));
+popupProfileCloseButton.addEventListener('click', () => closePopup(profilePopup));
 popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 popupImageCloseButton.addEventListener('click', () => closePopup(imagePopup));
+profilePopup.addEventListener('click', closeByOverlay);
+cardPopup.addEventListener('click', closeByOverlay);
+imagePopup.addEventListener('click', closeByOverlay);
+document.addEventListener('keydown', closeESC);
+
