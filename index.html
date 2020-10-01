@@ -35,7 +35,9 @@
           <form class="content-form content-form_type_profile" name="content-form">
             <h2 class="content-form__title">Редактировать профиль</h2>
             <input type="text" class="content-form__input" placeholder="Имя" name="name-input" minlength = 2 maxlength = 40 required>
+            <span class='content-form__input-error' id='name-input-error'></span>
             <input type="text" class="content-form__input" placeholder="Профессия" name="description-input" minlength = 2 maxlength = 200 required>
+            <span class='content-form__input-error' id='description-input-error'></span>
             <button type="submit" class="content-form__save-button">Сохранить</button>
           </form>
         </div>
@@ -46,7 +48,9 @@
             <form class="content-form content-form_type_new-card" name="new-place">
                 <h2 class="content-form__title">Новое место</h2>
                 <input type="text" name="place-name" class="content-form__input" placeholder="Название" minlength = 1 maxlength = 30 required>
+                <span class='content-form__input-error' id='place-name-error'></span>
                 <input type="url" name="link" class="content-form__input" placeholder="Ссылка на картинку" required>
+                <span class='content-form__input-error' id='link-error'></span>
                 <button type="submit" class="content-form__save-button">Создать</button>
             </form>
           </div>  

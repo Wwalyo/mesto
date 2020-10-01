@@ -1,6 +1,7 @@
 .content-form__save-button {
   background-color: #000;
   border: 0;
+  border-radius: 2px;
   color: #FFFFFF;
   font-weight: 400;
   font-size: 18px;

@@ -1,0 +1,8 @@
+.content-form__input-error {
+  align-self: start;
+  color: #FF0000;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  visibility: hidden;
+}

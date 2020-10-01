@@ -1,0 +1,5 @@
+.content-form__save-button_disabled {
+  background: #fff;
+  border: 1px solid gray;
+  color: gray;
+}

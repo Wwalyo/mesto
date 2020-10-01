@@ -5,12 +5,11 @@ const imagePopup = document.querySelector('.image-popup');
 const imageItem = imagePopup.querySelector('.image-popup__item');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.control-panel__add-button');
-const popupTitle = popup.querySelector('.content-form__title');
 const popupProfileCloseButton = popup.querySelector('.popup__close-button');
 const popupCardCloseButton = cardPopup.querySelector('.popup__close-button');
 const popupImageCloseButton = imagePopup.querySelector('.popup__close-button');
-const popupSaveButton = popup.querySelector('.content-form__save-button');
 const profile = document.querySelector('.profile__info');
+const saveBtn = popup.querySelector('.content-form__save-button');
 const profileFormElement =  popup.querySelector('.content-form_type_profile');
 const cardFormElement =  cardPopup.querySelector('.content-form_type_new-card');
 const nameInput = profileFormElement.querySelector('.content-form__input[name="name-input"]');
@@ -67,7 +66,7 @@ const getCardElement = (item) => {
   deleteButton.addEventListener('click', function () {
     deleteButton.closest('.card').remove();
   });
-  imageBtn.addEventListener('click', function (evt) {
+  imageBtn.addEventListener('click', function () {
     showImage(item);
   });
   return cardElement;
@@ -85,16 +84,15 @@ addCards(initialCards);
 
 const openPopup = (modalWindow) => {
   modalWindow.classList.add('popup_is-opened');
-
 }
 
-const setupEditProfile = (event) => {
+const setupEditProfile = () => {
   nameInput.value = currentName.textContent;
   jobInput.value = currentJob.textContent;
   openPopup(popup);
 }
 
-const setupAddCard = (event) => {
+const setupAddCard = () => {
   openPopup(cardPopup);
 }
 
@@ -108,18 +106,14 @@ const showImage = (item) => {
 
 const formSubmitHandler = (event) => {
   event.preventDefault();
-  console.log('3');
   if (event.target.closest('.popup') === profilePopup)  {
     currentName.textContent = nameInput.value;
     currentJob.textContent = jobInput.value;
-    console.log('1');
     closePopup(popup);  
   } else {
-    console.log('2');
     const card = {};
     card.name = titleInput.value;
     card.link = linkInput.value;
-    console.log(card);
     addCard(card);
     closePopup(cardPopup);  
   }
@@ -140,49 +134,54 @@ const closeByOverlay = (evt) => {
   closePopup(evt.currentTarget);
 }
 
-// const showInputError = (formElement, inputElement, errorMessage) => {
-//   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-//   inputElement.classList.add('form__input_type_error');
-//   errorElement.textContent = errorMessage;
-//   errorElement.classList.add('form__input-error_active');
-// };
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
+  const save = formElement.querySelector('.content-form__save-button');
+  inputElement.classList.add('content-form__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('content-form__input-error_active');
+  save.classList.add('content-form__save-button_disabled');
+};
 
-// const hideInputError = (formElement, inputElement) => {
-//   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-//   inputElement.classList.remove('form__input_type_error');
-//   errorElement.classList.remove('form__input-error_active');
-//   errorElement.textContent = '';
-// };
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
+  const save = formElement.querySelector('.content-form__save-button');
+  inputElement.classList.remove('content-form__input_type_error');
+  errorElement.classList.remove('content-form__input-error_active');
+  errorElement.textContent = '';
+  save.saveBtn.classList.remove('content-form__save-button_disabled');
+};
 
-// const checkInputValidity = (formElement, inputElement) => {
-//   if (!inputElement.validity.valid) {
-//     showInputError(formElement, inputElement, inputElement.validationMessage);
-//   } else {
-//     hideInputError(formElement, inputElement);
-//   }
-// };
+const checkInputValidity = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+};
 
-// const setEventListeners = (formElement) => {
-//   const inputList = Array.from(formElement.querySelectorAll('.content-form__input'));
-//   inputList.forEach((inputElement) => {
-//     inputElement.addEventListener('input', function () {
-//       checkInputValidity(formElement, inputElement);
-//     });
-//   });
-// };
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.content-form__input'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+};
 
-// const enableValidation = () => {
-//   const formList = Array.from(document.querySelectorAll('.popup'));
-//   formList.forEach((formElement) => {
-//   formElement.addEventListener('submit', (evt) => {
-//     evt.preventDefault();
-//   });
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.popup'));
+  console.log(formList);
+  formList.forEach((formElement) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+  });
 
-//     setEventListeners(formElement);
-// });
-// }
+    setEventListeners(formElement);
+});
+}
 
-// enableValidation();
+enableValidation();
 
 
 
