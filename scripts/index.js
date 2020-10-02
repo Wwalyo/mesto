@@ -89,12 +89,14 @@ const openPopup = (modalWindow) => {
 }
 
 const setupEditProfile = () => {
+  profileFormElement.reset();
   nameInput.value = currentName.textContent;
   jobInput.value = currentJob.textContent;
   openPopup(popup);
 }
 
 const setupAddCard = () => {
+  cardFormElement.reset();
   openPopup(cardPopup);
 }
 
