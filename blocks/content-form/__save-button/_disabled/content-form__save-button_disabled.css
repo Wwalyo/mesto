@@ -3,3 +3,9 @@
   border: 1px solid gray;
   color: gray;
 }
+
+.content-form__save-button_disabled:hover {
+  background:  #fff;
+  cursor: default;
+
+}

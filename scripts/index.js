@@ -20,6 +20,7 @@ const currentName = profile.querySelector('.profile__name');
 const currentJob = profile.querySelector('.profile__description');
 const cardTemplate = document.querySelector('#card').content;
 const cardsContainer = document.querySelector('.cards');
+
 const initialCards = [
   {
       name: 'Архыз',
@@ -83,6 +84,7 @@ const addCards = (items) => {
 addCards(initialCards);
 
 const openPopup = (modalWindow) => {
+
   modalWindow.classList.add('popup_is-opened');
 }
 
@@ -95,7 +97,6 @@ const setupEditProfile = () => {
 const setupAddCard = () => {
   openPopup(cardPopup);
 }
-
 
 const showImage = (item) => {
   imageItem.src =  item.link;
@@ -115,6 +116,8 @@ const formSubmitHandler = (event) => {
     card.name = titleInput.value;
     card.link = linkInput.value;
     addCard(card);
+    titleInput.value = '';
+    linkInput.value = '';
     closePopup(cardPopup);  
   }
 }
@@ -134,63 +137,12 @@ const closeByOverlay = (evt) => {
   closePopup(evt.currentTarget);
 }
 
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-  const save = formElement.querySelector('.content-form__save-button');
-  inputElement.classList.add('content-form__input_type_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('content-form__input-error_active');
-  save.classList.add('content-form__save-button_disabled');
-};
-
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-  const save = formElement.querySelector('.content-form__save-button');
-  inputElement.classList.remove('content-form__input_type_error');
-  errorElement.classList.remove('content-form__input-error_active');
-  errorElement.textContent = '';
-  save.saveBtn.classList.remove('content-form__save-button_disabled');
-};
-
-const checkInputValidity = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formElement, inputElement);
-  }
-};
-
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.content-form__input'));
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement);
-    });
-  });
-};
-
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.popup'));
-  console.log(formList);
-  formList.forEach((formElement) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
-
-    setEventListeners(formElement);
-});
-}
-
-enableValidation();
-
-
-
-
 profileFormElement.addEventListener('submit', formSubmitHandler);
 cardFormElement.addEventListener('submit', formSubmitHandler);
 profileEditButton.addEventListener('click', setupEditProfile);
 addCardButton.addEventListener('click', setupAddCard);
 popupProfileCloseButton.addEventListener('click', () => closePopup(profilePopup));
+popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 popupImageCloseButton.addEventListener('click', () => closePopup(imagePopup));
 profilePopup.addEventListener('click', closeByOverlay);

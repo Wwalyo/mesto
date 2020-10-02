@@ -31,8 +31,8 @@
       </footer>
       <div class="popup popup_type_profile">
         <div class="popup__container">
-          <button type="button" class="popup__close-button"></button>
           <form class="content-form content-form_type_profile" name="content-form">
+            <button type="reset" class="popup__close-button"></button>
             <h2 class="content-form__title">Редактировать профиль</h2>
             <input type="text" class="content-form__input" placeholder="Имя" name="name-input" minlength = 2 maxlength = 40 required>
             <span class='content-form__input-error' id='name-input-error'></span>
@@ -44,23 +44,23 @@
       </div>
       <div class="popup popup_type_new-card">
         <div class="popup__container">
-            <button type="button" class="popup__close-button"></button>
-            <form class="content-form content-form_type_new-card" name="new-place">
-                <h2 class="content-form__title">Новое место</h2>
-                <input type="text" name="place-name" class="content-form__input" placeholder="Название" minlength = 1 maxlength = 30 required>
-                <span class='content-form__input-error' id='place-name-error'></span>
-                <input type="url" name="link" class="content-form__input" placeholder="Ссылка на картинку" required>
-                <span class='content-form__input-error' id='link-error'></span>
-                <button type="submit" class="content-form__save-button">Создать</button>
-            </form>
-          </div>  
-        </div>
+          <form class="content-form content-form_type_new-card" name="new-place">
+            <button type="reset" class="popup__close-button"></button>
+              <h2 class="content-form__title">Новое место</h2>
+              <input type="text" name="place-name" class="content-form__input" placeholder="Название" minlength = 1 maxlength = 30 required>
+              <span class='content-form__input-error' id='place-name-error'></span>
+              <input type="url" name="link" class="content-form__input" placeholder="Ссылка на картинку" required>
+              <span class='content-form__input-error' id='link-error'></span>
+              <button type="submit" class="content-form__save-button">Создать</button>
+          </form>
+        </div>  
+      </div>
     </div>
     <div class="image-popup">
       <div class="image-popup__container">
         <img src="#" class="image-popup__item" alt="">
         <h4 class="image-popup__title"></h4>
-        <button type="button" class="popup__close-button"></button>
+        <button type="reset" class="popup__close-button"></button>
       </div>
     </div>
     <template id="card">
@@ -73,6 +73,7 @@
       </div>
       </div>
     </template>
+    <script src="scripts/validate.js"></script>
     <script src="scripts/index.js" defer></script>
   </body>
 </html>
