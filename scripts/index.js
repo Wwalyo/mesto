@@ -77,17 +77,23 @@ export default class Card {
       showImage(item); 
     });
   }
+  getCard(item) {
+    this._cardImage.src = item.link;
+    this._cardImage.alt = item.name;
+    this._cardName.textContent = item.name;
+    return  this._cardElement;   
+  }
 }
 const getCardElement = (item) => {
-  -const cardElement = cardTemplate.cloneNode(true);
-  -const cardImage = cardElement.querySelector('.card__image');
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImage = cardElement.querySelector('.card__image');
   cardImage.src = item.link;
   cardImage.alt = item.name;
   cardElement.querySelector('.card__name').textContent = item.name;
-  -const likeButton = cardElement.querySelector('.card__like-button');
-  -const deleteButton = cardElement.querySelector('.card__trash-button');
-  -const imageBtn = cardElement.querySelector('.card__image');
-  -likeButton.addEventListener('click', function (evt) {
+  const likeButton = cardElement.querySelector('.card__like-button');
+  const deleteButton = cardElement.querySelector('.card__trash-button');
+  const imageBtn = cardElement.querySelector('.card__image');
+  likeButton.addEventListener('click', function (evt) {
     evt.target.classList.toggle('card__like-button_active');
   });
   deleteButton.addEventListener('click', function () {
