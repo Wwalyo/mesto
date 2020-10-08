@@ -1,3 +1,4 @@
+import Card from './card.js';
 const popup = document.querySelector('.popup');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const profilePopup = document.querySelector('.popup_type_profile');
@@ -53,64 +54,18 @@ const closePopup = (modalWindow) => {
   document.removeEventListener('keydown', closeESC);
 };
 
-export default class Card {
-  constructor(item, cardSelector) {
-    this._cardElement = document.querySelector(cardSelector).content.cloneNode(true);
-    this._cardImage = this._cardElement.querySelector('.card__image');
-    this._cardName = this._cardElement.querySelector('.card__name');
-    this._likeButton = this._cardElement.querySelector('.card__like-button');
-    this._deleteButton = this._cardElement.querySelector('.card__trash-button');
-    this._imageBtn = this._cardElement.querySelector('.card__image');
-  }
-  _handleLikeClick() {
-    this._likeButton.addEventListener('click', function (evt) {
-      evt.target.classList.toggle('card__like-button_active');
-    });  
-  }
-  _handleDeleteClick() {
-    this._deleteButton.addEventListener('click', function () {
-      deleteButton.closest('.card').remove();
-    });
-}
-  _handleImageClick() {
-    this._imageBtn.addEventListener('click', function () {
-      showImage(item); 
-    });
-  }
-  getCard(item) {
-    this._cardImage.src = item.link;
-    this._cardImage.alt = item.name;
-    this._cardName.textContent = item.name;
-    return  this._cardElement;   
-  }
-}
-const getCardElement = (item) => {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  cardImage.src = item.link;
-  cardImage.alt = item.name;
-  cardElement.querySelector('.card__name').textContent = item.name;
-  const likeButton = cardElement.querySelector('.card__like-button');
-  const deleteButton = cardElement.querySelector('.card__trash-button');
-  const imageBtn = cardElement.querySelector('.card__image');
-  likeButton.addEventListener('click', function (evt) {
-    evt.target.classList.toggle('card__like-button_active');
-  });
-  deleteButton.addEventListener('click', function () {
-    deleteButton.closest('.card').remove();
-  });
-  imageBtn.addEventListener('click', function () {
-    showImage(item);
-  });
-  return cardElement;
-}
-
 const addCard = (item) => {
-  cardsContainer.prepend(getCardElement(item));
+  
+  const newCard = new Card(item, '#card');
+  console.log(newCard._imageBtn);
+  cardsContainer.prepend(newCard.getCard(item));
 }
 
 const addCards = (items) => {
-  items.forEach(addCard);
+  items.forEach((item) => {
+    const cardItem = new Card(item, '#card');
+    cardsContainer.prepend(cardItem.getCard(item));
+  });
 }
 
 addCards(initialCards);
@@ -182,3 +137,4 @@ popupImageCloseButton.addEventListener('click', () => closePopup(imagePopup));
 profilePopup.addEventListener('click', closeByOverlay);
 cardPopup.addEventListener('click', closeByOverlay);
 imagePopup.addEventListener('click', closeByOverlay);
+
