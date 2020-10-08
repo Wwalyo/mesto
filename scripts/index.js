@@ -1,4 +1,5 @@
 import Card from './card.js';
+import openPopup from './popups.js';
 const popup = document.querySelector('.popup');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const profilePopup = document.querySelector('.popup_type_profile');
@@ -64,16 +65,14 @@ const addCard = (item) => {
 const addCards = (items) => {
   items.forEach((item) => {
     const cardItem = new Card(item, '#card');
+
     cardsContainer.prepend(cardItem.getCard(item));
   });
 }
 
 addCards(initialCards);
 
-const openPopup = (modalWindow) => {
-  modalWindow.classList.add('popup_is-opened');
-  document.addEventListener('keydown', closeESC);
-}
+
 
 const setupEditProfile = () => {
   profileFormElement.reset();
@@ -87,12 +86,6 @@ const setupAddCard = () => {
   openPopup(cardPopup);
 }
 
-const showImage = (item) => {
-  imageItem.src =  item.link;
-  imagePopup.querySelector('.image-popup__title').textContent = item.name;
-  imageItem.alt = item.name;
-  openPopup(imagePopup);
-}
 
 const formSubmitHandler = (event) => {
   event.preventDefault();

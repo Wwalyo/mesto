@@ -1,5 +1,7 @@
+import showImage from './showImage.js';
+
 export default class Card {
-  constructor(item, cardSelector) {
+  constructor(item, cardSelector, showImage) {
     this._item = item;
     this._cardElement = document.querySelector(cardSelector).content.cloneNode(true);
     this._cardImage = this._cardElement.querySelector('.card__image');
@@ -12,7 +14,7 @@ export default class Card {
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => this._handleLikeClick());
     this._deleteButton.addEventListener('click', () => this._handleDeleteClick());
-    this._imageBtn.addEventListener('click', () => this._handleImageClick(item));        
+    this._imageBtn.addEventListener('click', () => this._handleImageClick(this._item));        
   }
   _handleLikeClick() {
     this._likeButton.classList.toggle('card__like-button_active');  
@@ -27,6 +29,7 @@ export default class Card {
     this._cardImage.src = item.link;
     this._cardImage.alt = item.name;
     this._cardName.textContent = item.name;
+    console.log(this._cardElement);
     return  this._cardElement;   
   }
 }
