@@ -1,7 +1,7 @@
 import showImage from './showImage.js';
 
 export default class Card {
-  constructor(item, cardSelector, showImage) {
+  constructor(item, cardSelector) {
     this._item = item;
     this._cardElement = document.querySelector(cardSelector).content.cloneNode(true);
     this._cardImage = this._cardElement.querySelector('.card__image');
@@ -29,7 +29,6 @@ export default class Card {
     this._cardImage.src = item.link;
     this._cardImage.alt = item.name;
     this._cardName.textContent = item.name;
-    console.log(this._cardElement);
     return  this._cardElement;   
   }
 }
