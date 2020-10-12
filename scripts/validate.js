@@ -4,6 +4,7 @@ export default class FormValidator {
     this._inputSelector = config.inputSelector;
     this._formSelector = config.formSelector;
     this._submitButtonSelector = config.submitButtonSelector;
+    this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;    
   }
@@ -64,9 +65,9 @@ export default class FormValidator {
   };
   _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add('content-form__save-button_disabled');
+      buttonElement.classList.add(this._inactiveButtonClass);
     } else {
-      buttonElement.classList.remove('content-form__save-button_disabled');
+      buttonElement.classList.remove(this._inactiveButtonClass);
     }
   };
 }  

@@ -6,7 +6,7 @@ import formValidate from './validate.js';
 const popup = document.querySelector('.popup');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const profilePopup = document.querySelector('.popup_type_profile');
-const imagePopup = document.querySelector('.image-popup');
+const imagePopup = document.querySelector('.popup_type_image-popup');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.control-panel__add-button');
 const popupProfileCloseButton = popup.querySelector('.popup__close-button');

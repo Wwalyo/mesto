@@ -1,11 +1,11 @@
 import { openPopup } from './popups.js';
 
-const imagePopup = document.querySelector('.image-popup');
-const imageItem = imagePopup.querySelector('.image-popup__item');
+const imagePopup = document.querySelector('.popup_type_image-popup');
+const imageItem = imagePopup.querySelector('.popup__item');
 
 const showImage = (item) => {
   imageItem.src =  item.link;
-  imagePopup.querySelector('.image-popup__title').textContent = item.name;
+  imagePopup.querySelector('.popup__title').textContent = item.name;
   imageItem.alt = item.name;
   openPopup(imagePopup);
 }
