@@ -86,24 +86,29 @@ const setupEditProfile = () => {
 
 const setupAddCard = () => {
   cardFormElement.reset();
+  const submitbutton = cardFormElement.querySelector('.content-form__save-button');
+  submitbutton.classList.add('content-form__save-button_disabled');
+  submitbutton.disabled = 'true';
   openPopup(cardPopup);
 }
 
-const formSubmitHandler = (event) => {
+
+const handleProfileFormSubmit = (event) => {
   event.preventDefault();
-  if (event.target.closest('.popup') === profilePopup)  {
-    currentName.textContent = nameInput.value;
-    currentJob.textContent = jobInput.value;
-    closePopup(popup);  
-  } else {
-    const card = {};
-    card.name = titleInput.value;
-    card.link = linkInput.value;
-    addCard(card);
-    titleInput.value = '';
-    linkInput.value = '';
-    closePopup(cardPopup);  
-  }
+  currentName.textContent = nameInput.value;
+  currentJob.textContent = jobInput.value;
+  closePopup(popup);  
+}
+
+const handleAddCardFormSubmit = (event) => {
+  event.preventDefault();
+  const card = {};
+  card.name = titleInput.value;
+  card.link = linkInput.value;
+  addCard(card);
+  titleInput.value = '';
+  linkInput.value = '';
+  closePopup(cardPopup);  
 }
 
 const closeByOverlay = (evt) => {
@@ -113,8 +118,8 @@ const closeByOverlay = (evt) => {
   closePopup(evt.currentTarget);
 }
 
-profileFormElement.addEventListener('submit', formSubmitHandler);
-cardFormElement.addEventListener('submit', formSubmitHandler);
+profileFormElement.addEventListener('submit', handleProfileFormSubmit);
+cardFormElement.addEventListener('submit', handleAddCardFormSubmit);
 profileEditButton.addEventListener('click', setupEditProfile);
 addCardButton.addEventListener('click', setupAddCard);
 popupProfileCloseButton.addEventListener('click', () => closePopup(profilePopup));
