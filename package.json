@@ -1,0 +1,25 @@
+{
+  "name": "mesto",
+  "version": "0.0.1",
+  "description": "project work for yandex.praktikum",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wwalyo/mesto.git"
+  },
+  "author": "Alena Goncharova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wwalyo/mesto/issues"
+  },
+  "homepage": "https://github.com/Wwalyo/mesto#readme",
+  "devDependencies": {
+    "webpack": "^5.1.3",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

@@ -1,6 +1,5 @@
 import Card from './card.js';
 import { openPopup, closePopup } from './popups.js';
-
 import formValidate from './validate.js';
 
 const popup = document.querySelector('.popup');
@@ -123,7 +122,6 @@ cardFormElement.addEventListener('submit', handleAddCardFormSubmit);
 profileEditButton.addEventListener('click', setupEditProfile);
 addCardButton.addEventListener('click', setupAddCard);
 popupProfileCloseButton.addEventListener('click', () => closePopup(profilePopup));
-popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 popupImageCloseButton.addEventListener('click', () => closePopup(imagePopup));
 profilePopup.addEventListener('click', closeByOverlay);
