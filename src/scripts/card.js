@@ -1,9 +1,10 @@
 import showImage from './showImage.js';
 
 export default class Card {
-  constructor(item, cardSelector) {
+  constructor(item, cardSelector, handleImageClick) {
     this._item = item;
     this._cardElement = document.querySelector(cardSelector).content.cloneNode(true);
+    this._handleImageClick = handleImageClick;
   }
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => this._handleLikeClick());
@@ -15,9 +16,6 @@ export default class Card {
   }
   _handleDeleteClick() {
     this._deleteButton.closest('.card').remove();
-  }
-  _handleImageClick(item) {
-    showImage(item);
   }
   getCard(item) {
     this._cardImage = this._cardElement.querySelector('.card__image');

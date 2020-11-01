@@ -1,6 +1,20 @@
-import Card from './card.js';
-import { openPopup, closePopup } from './popups.js';
-import formValidate from './validate.js';
+import Card from './scripts/card.js';
+import { openPopup, closePopup } from './scripts/popups.js';
+import formValidate from './scripts/validate.js';
+import Popup from './scripts/popup.js';
+import PopupWithImage from './scripts/popupWithImage.js';
+import PopupWithForm from './scripts/popupWithForm/js';
+import Section from './scripts/section.js';
+import './pages/index.css';
+import './images/add-icon.svg';
+import './images/close-icon.svg';
+import './images/edit-icon.svg';
+import './images/header-logo.svg';
+import './images/like-active.svg';
+import './images/like.svg';
+import './images/profile-photo.jpg';
+import './images/trash-icon.svg';
+
 
 const popup = document.querySelector('.popup');
 const cardPopup = document.querySelector('.popup_type_new-card');
@@ -66,15 +80,32 @@ const addCard = (item) => {
   cardsContainer.prepend(newCard.getCard(item));
 }
 
-const addCards = (items) => {
-  items.forEach((item) => {
-    const cardItem = new Card(item, '#card');
+const cardsList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const cardItem = new Card( 
+                              item, 
+                              '#card', 
+                              () => {
+                                      const popupWithImage = new PopupWithImage(item, '.popup_type_image-popup');
+                                      popupWithImage.open();                                             
+                                    })
 
-    cardsContainer.prepend(cardItem.getCard(item));
-  });
-}
+    cardsList.setItem(cardItem.getCard(item));  
+  }
+},
+  '.cards'
+);
 
-addCards(initialCards);
+cardsList.renderItems();
+
+const popupEditProfile = new PopupWithForm('.popup_type_profile', () => {
+  
+})
+
+const popupAddCard = new PopupWithForm('.popup_type_new-card', () => {
+  
+})
 
 const setupEditProfile = () => {
   profileFormElement.reset();
@@ -90,6 +121,7 @@ const setupAddCard = () => {
   submitbutton.disabled = 'true';
   openPopup(cardPopup);
 }
+
 
 
 const handleProfileFormSubmit = (event) => {
@@ -119,7 +151,7 @@ const closeByOverlay = (evt) => {
 
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 cardFormElement.addEventListener('submit', handleAddCardFormSubmit);
-profileEditButton.addEventListener('click', setupEditProfile);
+profileEditButton.addEventListener('click', popupEditProfile.open());
 addCardButton.addEventListener('click', setupAddCard);
 popupProfileCloseButton.addEventListener('click', () => closePopup(profilePopup));
 popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
