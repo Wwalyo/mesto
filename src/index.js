@@ -152,7 +152,7 @@ const closeByOverlay = (evt) => {
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 cardFormElement.addEventListener('submit', handleAddCardFormSubmit);
 profileEditButton.addEventListener('click', popupEditProfile.open());
-addCardButton.addEventListener('click', setupAddCard);
+addCardButton.addEventListener('click', popupAddCard.open());
 popupProfileCloseButton.addEventListener('click', () => closePopup(profilePopup));
 popupCardCloseButton.addEventListener('click', () => closePopup(cardPopup));
 popupImageCloseButton.addEventListener('click', () => closePopup(imagePopup));
