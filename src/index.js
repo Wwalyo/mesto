@@ -1,7 +1,6 @@
 import Card from './scripts/card.js';
 import { openPopup, closePopup } from './scripts/popups.js';
 import formValidate from './scripts/validate.js';
-import Popup from './scripts/popup.js';
 import PopupWithImage from './scripts/popupWithImage.js';
 import PopupWithForm from './scripts/popupWithForm/js';
 import Section from './scripts/section.js';
@@ -87,8 +86,8 @@ const cardsList = new Section({
                               item, 
                               '#card', 
                               () => {
-                                      const popupWithImage = new PopupWithImage(item, '.popup_type_image-popup');
-                                      popupWithImage.open();                                             
+                                      const popupWithImage = new PopupWithImage('.popup_type_image-popup');
+                                      popupWithImage.open(item);                                             
                                     })
 
     cardsList.setItem(cardItem.getCard(item));  
