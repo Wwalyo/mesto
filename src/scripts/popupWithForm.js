@@ -5,7 +5,7 @@ export default class PopupWithForm extends Popup {
   }
   _getInputValues() {
     //тут получается массив из этих элементов, а не их значений
-    const inputs = this._popup.querySelectorAll('content-form__input');
+    const inputs = [...this._popup.querySelectorAll('content-form__input')];
   }
   setEventListeners() {
     const closeButton = this._popup.querySelector('.popup__close-button');
