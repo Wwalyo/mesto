@@ -18,18 +18,15 @@ export default class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    const closeButton = this._popup.querySelector('.popup__close-button');
+    super.setEventListeners();
     const submitButton = this._popup.querySelector('.content-form__save-button');
-    closeButton.addEventListener('click', this.close.bind(this));
     submitButton.addEventListener('click', () => {
                                                     this._submitForm(this._getInputValues());
                                                   });
-    this._popup.addEventListener('click', this._handlecloseByOverlay.bind(this));
   }
 
   close() {
-    this._popup.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', this._handleEscClose);
+    super.close();
     this._form.reset();
   }
 }
