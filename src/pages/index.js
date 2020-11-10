@@ -11,8 +11,8 @@ import './index.css';
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addCardButton = document.querySelector('.control-panel__add-button');
 
-const validation = new formValidate({
-  formSelector: '.content-form',
+const validateProfileForm = new formValidate({
+  formSelector: '.content-form_type_profile',
   inputSelector: '.content-form__input',
   submitButtonSelector: '.content-form__save-button',
   inactiveButtonClass: 'content-form__save-button_disabled',
@@ -20,7 +20,18 @@ const validation = new formValidate({
   errorClass: 'content-form__input-error_active'
 });
 
-validation.enableValidation();
+const validateAddCardForm = new formValidate({
+  formSelector: '.content-form_type_new-card',
+  inputSelector: '.content-form__input',
+  submitButtonSelector: '.content-form__save-button',
+  inactiveButtonClass: 'content-form__save-button_disabled',
+  inputErrorClass: 'content-form__input_type_error',
+  errorClass: 'content-form__input-error_active'
+});
+
+validateProfileForm.enableValidation();
+validateAddCardForm.enableValidation();
+
 
 const popupWithImage = new PopupWithImage('.popup_type_image-popup');
 popupWithImage.setEventListeners(); 
@@ -58,6 +69,8 @@ function addUserInfo() {
   jobInput.value = allInfo.info; 
 }
 
+addUserInfo();
+
 function submitFormAddCard(inputValues) {
   const item = {};
   item.name = inputValues["place-name"];
@@ -70,10 +83,14 @@ function submitFormAddCard(inputValues) {
 const popupAddCard = new PopupWithForm('.popup_type_new-card', submitFormAddCard);
 popupAddCard.setEventListeners();
 
+
+
 profileEditButton.addEventListener('click', () => {
                                                     addUserInfo();
                                                     popupEditProfile.open();
+
                                                   });
 addCardButton.addEventListener('click', () => {popupAddCard.open()});
+
 
 
