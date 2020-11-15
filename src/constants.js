@@ -1,32 +1,21 @@
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 const profileFormElement =  document.querySelector('.content-form_type_profile');
 const nameInput = profileFormElement.querySelector('.content-form__input[name="name-input"]');
 const jobInput = profileFormElement.querySelector('.content-form__input[name="description-input"]');
+const userName = document.querySelector('.profile__name');
+const userAbout = document.querySelector('.profile__description');
+const userAvatar = document.querySelector('.profile__photo');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const addCardButton = document.querySelector('.control-panel__add-button');
+const editPhotoButton = document.querySelector('.profile__photo-overlay');
 
-export { initialCards, nameInput, jobInput };  
+export { 
+          nameInput, 
+          jobInput, 
+          userName, 
+          userAbout, 
+          userAvatar, 
+          profileEditButton, 
+          addCardButton, 
+          editPhotoButton 
+};  

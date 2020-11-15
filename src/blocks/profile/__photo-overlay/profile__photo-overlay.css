@@ -1,0 +1,40 @@
+.profile__photo-overlay {
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  justify-content: center;
+  object-fit: cover;
+  position: relative;
+  text-decoration: none;
+  width: 120px;
+}
+  
+.profile__photo-overlay::after {
+  background: rgba(0, 0, 0, 0.8);
+  background-image: url("../../../images/edit-icon.svg");
+  background-size: 26px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 120px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity .3s;
+  width: 120px;
+}
+  
+.profile__photo-overlay:hover:after {
+  cursor: pointer;
+  opacity: .8;
+}
