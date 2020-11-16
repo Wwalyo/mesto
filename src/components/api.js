@@ -126,6 +126,45 @@ export default class Api {
     .catch((err) => {
       console.log('Ошибка. Запрос не выполнен: ', err);
     });
-  }  
-    // другие методы работы с API
+  }
+  
+  putLike(id) {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+      method: 'PUT',
+      headers: this._headers,
+    })
+    .then((res) => {
+      if (res.ok) {  
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log('Ошибка. Запрос не выполнен: ', err);
+    });
+  }
+  
+  deleteLike(id) {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+      method: 'DELETE',
+      headers: this._headers,
+      'Content-Type': 'application/json'
+    })
+    .then((res) => {
+      if (res.ok) {  
+        return res.json();
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`);
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log('Ошибка. Запрос не выполнен: ', err);
+    });
+  }
+
 }

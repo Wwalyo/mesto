@@ -17,6 +17,9 @@ import {  nameInput,
 } from '../constants.js'; 
 
 import './index.css';
+import { Promise } from 'core-js';
+
+let userId = "";
 
 const validateProfileForm = new formValidate({
   formSelector: '.content-form_type_profile',
@@ -36,15 +39,25 @@ const validateAddCardForm = new formValidate({
   errorClass: 'content-form__input-error_active'
 });
 
+const validateEditPhotoForm = new formValidate({
+  formSelector: '.content-form_type_edit-photo',
+  inputSelector: '.content-form__input',
+  submitButtonSelector: '.content-form__save-button',
+  inactiveButtonClass: 'content-form__save-button_disabled',
+  inputErrorClass: 'content-form__input_type_error',
+  errorClass: 'content-form__input-error_active'
+})
+
+
+
 validateProfileForm.enableValidation();
 validateAddCardForm.enableValidation();
+validateEditPhotoForm.enableValidation();
 
 function submitDeleteCard(item) {
-  console.log(item);
   api.deleteCard(item.id)
   .then(() => {
-    const cardElement = document.querySelector(`#${item.id}`);
-    console.log(cardElement);
+    const cardElement = document.querySelector('.card');
     cardElement.remove();
     popupDeleteCard.close();
   })
@@ -54,10 +67,34 @@ const popupDeleteCard = new PopupWithConfirm('.popup_type_delete-card', submitDe
 popupDeleteCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup_type_image-popup');
-popupWithImage.setEventListeners(); 
+popupWithImage.setEventListeners();
+
+
+
+function isPrime(element, index, array) {
+  var start = 2;
+  while (start <= Math.sqrt(element)) {
+    if (element % start++ < 1) {
+      return false;
+    }
+  }
+  return element > 1;
+}
+
+function handleLikeClick(item) {
+  api.putLike(item._id)
+  .then((arrLike) => { 
+                        arrLike.find()
+  });
+}
+
+// arr.find( // находим первый элемент, который соответствуют условию заданному в передаваемой функции
+//   function( currentValue ) {
+//     return this.checkNumber( currentValue ); //  возвращаемое значение метода checkNumber объекта myObject
+//   }
 
 function createCard(item) {
-  const card = new Card(item, '#card', () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)});
+  const card = new Card(item, '#card', () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
   return card;  
 }
 
@@ -79,6 +116,7 @@ function submitFormEditProfile(inputValues) {
   .catch(error => console.log(error));
   popupEditProfile.close();
 }
+
 
 const popupEditProfile = new PopupWithForm('.popup_type_profile', submitFormEditProfile);
 popupEditProfile.setEventListeners();
@@ -139,6 +177,8 @@ Promise.all([
   userName.textContent = userInfo.name;
   userAbout.textContent = userInfo.about;
   userAvatar.src = userInfo.avatar;
+  userId = userInfo._id;
+  console.log(userId);
   initialCards.forEach(item => {
     const cardItem = createCard(item);
     const card = cardItem.getCard(item);
@@ -147,8 +187,6 @@ Promise.all([
       deleteButton.style.display = "none";
     }
     cardsList.setItem(card);
-    console.log(item._id);
-    card.id = item._id;
   })    
 })
 .catch((err) => {
