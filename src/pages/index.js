@@ -21,6 +21,8 @@ import { Promise } from 'core-js';
 
 let userId = "";
 
+
+
 const validateProfileForm = new formValidate({
   formSelector: '.content-form_type_profile',
   inputSelector: '.content-form__input',
@@ -69,29 +71,53 @@ popupDeleteCard.setEventListeners();
 const popupWithImage = new PopupWithImage('.popup_type_image-popup');
 popupWithImage.setEventListeners();
 
-
-
-function isPrime(element, index, array) {
-  var start = 2;
-  while (start <= Math.sqrt(element)) {
-    if (element % start++ < 1) {
-      return false;
-    }
+function loadingRate(isLoading, formSelector) {
+  const form = document.querySelector(formSelector);
+  const submitButton = form.querySelector('.content-form__save-button');
+  if (isLoading) {
+    submitButton.value = "Сохранение..."
+  } else {
+    submitButton.value = "Сохранить" 
   }
-  return element > 1;
 }
+
+function isLiked(arrLikes) {
+  let res = '';
+  arrLikes.forEach((like) => {
+    if (like._id === userId) {
+      res = 1;
+    }
+  console.log(res);  
+  return res;
+  })
+};
 
 function handleLikeClick(item) {
-  api.putLike(item._id)
-  .then((arrLike) => { 
-                        arrLike.find()
-  });
-}
+  const cardIdSelector = "#id" + item._id;
+  const cardElement = document.querySelector(cardIdSelector);
+  const likeButton = cardElement.querySelector('.card__like-button');
+  const likeCounter = cardElement.querySelector('.card__like-counter');
 
-// arr.find( // находим первый элемент, который соответствуют условию заданному в передаваемой функции
-//   function( currentValue ) {
-//     return this.checkNumber( currentValue ); //  возвращаемое значение метода checkNumber объекта myObject
-//   }
+  const arrThis = item.likes;
+  //почему-то вот тут ниже всегда undefined, хотя res, который возвращает 
+  const beLike = isLiked(arrThis);
+  console.log(beLike);
+  if (!beLike) {
+    api.putLike(item._id)
+    .then((card) => {
+      likeButton.classList.add('card__like-button_active'); 
+      likeCounter.textContent = card.likes.length; 
+    })
+    .catch(error => console.log(error)); 
+  } else {
+    api.deleteLike(item._id)
+    .then((card) => {
+      likeButton.classList.remove('card__like-button_active'); 
+      likeCounter.textContent = card.likes.length; 
+    })
+    .catch(error => console.log(error)); 
+  } 
+}  
 
 function createCard(item) {
   const card = new Card(item, '#card', () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
@@ -103,6 +129,7 @@ const cardsList = new Section('.cards');
 const userInfo = new UserInfo({nameSelector: '.profile__name', infoSelector: '.profile__description'});
 
 function submitFormEditProfile(inputValues) {
+  loadingRate(true, '.content-form_type_profile');
   const currentUserInfo = {};
   currentUserInfo.currentName = inputValues["name-input"];
   currentUserInfo.currentInfo = inputValues["description-input"];
@@ -113,8 +140,11 @@ function submitFormEditProfile(inputValues) {
                 userAbout.textContent = userInfo.about;
                 userAvatar.src = userInfo.avatar;
   })
-  .catch(error => console.log(error));
-  popupEditProfile.close();
+  .catch(error => console.log(error))
+  .finally(() => {
+    loadingRate(false, '.content-form_type_profile');
+  }); 
+  popupEditProfile.close();  
 }
 
 
@@ -130,6 +160,7 @@ function addUserInfoForPopup() {
 addUserInfoForPopup();
 
 function submitFormAddCard(inputValues) {
+  loadingRate(true, '.content-form_type_new-card');
   const item = {};
   item.name = inputValues["place-name"];
   item.link = inputValues["link"];
@@ -138,15 +169,19 @@ function submitFormAddCard(inputValues) {
                     const card = createCard(res);
                     cardsList.setItem(card.getCard(res))
                   })
-  .catch(error => console.log(error));       
-  popupAddCard.close();
+  .catch(error => console.log(error))
+  .finally(() => {
+    loadingRate(false, '.content-form_type_new-card');
+  });
+  popupAddCard.close();       
+  
 }
 
 const popupAddCard = new PopupWithForm('.popup_type_new-card', submitFormAddCard);
 popupAddCard.setEventListeners();
 
 function submitFormEditPhoto(inputs) {
-  
+  loadingRate(true, '.content-form_type_edit-photo');
   const currentUserInfo = {};
   currentUserInfo.currentPhoto = inputs["photo-input"];
   api.editUserPhoto(currentUserInfo)
@@ -154,7 +189,10 @@ function submitFormEditPhoto(inputs) {
   .then((userInfo) => {   
                 userAvatar.src = userInfo.avatar;
   })
-  .catch(error => console.log(error));
+  .catch(error => console.log(error))
+  .finally(() => {
+    loadingRate(false, '.content-form_type_edit-photo');
+  }); 
   popupEditPhoto.close();
 }
 
@@ -178,11 +216,15 @@ Promise.all([
   userAbout.textContent = userInfo.about;
   userAvatar.src = userInfo.avatar;
   userId = userInfo._id;
-  console.log(userId);
   initialCards.forEach(item => {
+    console.log(item);
     const cardItem = createCard(item);
     const card = cardItem.getCard(item);
+    const likeButton = card.querySelector('.card__like-button');
     const deleteButton = card.querySelector('.card__trash-button');
+    if (isLiked(item.likes)) {
+      likeButton.classList.add('card__like-button_active');
+    }
     if (cardItem._cardOwnerId !== userInfo._id) {
       deleteButton.style.display = "none";
     }
@@ -205,5 +247,3 @@ addCardButton.addEventListener('click', () => {
 editPhotoButton.addEventListener('click', () => {                                                  
                                                   popupEditPhoto.open()
                                                 });
-
-

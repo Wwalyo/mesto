@@ -25,7 +25,7 @@ export default class Card {
     this._likeButton = this._cardElement.querySelector('.card__like-button');
     this._likeCounter = this._cardElement.querySelector('.card__like-counter');
     this._deleteButton = this._cardElement.querySelector('.card__trash-button');
-    this._cardElement.firstElementChild.id = item._id;
+    this._cardElement.firstElementChild.id = "id" + item._id;
     this._cardOwnerId = item.owner._id;
     this._imageBtn = this._cardElement.querySelector('.card__image');
     this._cardImage.src = item.link;
