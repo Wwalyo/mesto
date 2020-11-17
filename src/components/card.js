@@ -10,7 +10,7 @@ export default class Card {
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => this._handleLikeClick(this._item));
     this._deleteButton.addEventListener('click', () => {  this._handleDeleteClick(this._item)});
-    this._imageBtn.addEventListener('click', () => this._handleImageClick());        
+    this._cardImage.addEventListener('click', () => this._handleImageClick());        
   }
 
   getCard(item) {
@@ -21,7 +21,6 @@ export default class Card {
     this._deleteButton = this._cardElement.querySelector('.card__trash-button');
     this._cardElement.firstElementChild.id = "id" + item._id;
     this._cardOwnerId = item.owner._id;
-    this._imageBtn = this._cardElement.querySelector('.card__image');
     this._cardImage.src = item.link;
     this._cardImage.alt = item.name;
     this._cardName.textContent = item.name;

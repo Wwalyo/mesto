@@ -1,50 +1,33 @@
 import Card from '../components/card.js';
-import formValidate from '../components/validate.js';
+import FormValidate from '../components/validate.js';
 import PopupWithImage from '../components/popupWithImage.js';
 import PopupWithForm from '../components/popupWithForm.js';
 import PopupWithConfirm from '../components/popupWithConfirm.js';
 import UserInfo from '../components/userInfo.js';
 import Section from '../components/section.js';
 import Api from '../components/api.js';
-import {  nameInput, 
-          jobInput, 
-          userName, 
-          userAbout, 
-          userAvatar, 
-          profileEditButton, 
-          addCardButton, 
-          editPhotoButton 
-} from '../constants.js'; 
+import { loadingRate } from '../utils/utils.js';
+import {  
+  nameInput, 
+  jobInput, 
+  userName, 
+  userAbout, 
+  userAvatar, 
+  profileEditButton, 
+  addCardButton, 
+  editPhotoButton,
+  profileFormConfig,
+  addCardFormConfig,
+  editPhotoFormConfig
+} from '../utils/constants.js'; 
+
 import './index.css';
 
 let userId = "";
 
-const validateProfileForm = new formValidate({
-  formSelector: '.content-form_type_profile',
-  inputSelector: '.content-form__input',
-  submitButtonSelector: '.content-form__save-button',
-  inactiveButtonClass: 'content-form__save-button_disabled',
-  inputErrorClass: 'content-form__input_type_error',
-  errorClass: 'content-form__input-error_active'
-});
-
-const validateAddCardForm = new formValidate({
-  formSelector: '.content-form_type_new-card',
-  inputSelector: '.content-form__input',
-  submitButtonSelector: '.content-form__save-button',
-  inactiveButtonClass: 'content-form__save-button_disabled',
-  inputErrorClass: 'content-form__input_type_error',
-  errorClass: 'content-form__input-error_active'
-});
-
-const validateEditPhotoForm = new formValidate({
-  formSelector: '.content-form_type_edit-photo',
-  inputSelector: '.content-form__input',
-  submitButtonSelector: '.content-form__save-button',
-  inactiveButtonClass: 'content-form__save-button_disabled',
-  inputErrorClass: 'content-form__input_type_error',
-  errorClass: 'content-form__input-error_active'
-});
+const validateProfileForm = new FormValidate(profileFormConfig);
+const validateAddCardForm = new FormValidate(addCardFormConfig);
+const validateEditPhotoForm = new FormValidate(editPhotoFormConfig);
 
 validateProfileForm.enableValidation();
 validateAddCardForm.enableValidation();
@@ -56,6 +39,9 @@ function submitDeleteCard(item) {
     const cardElement = document.querySelector('.card');
     cardElement.remove();
     popupDeleteCard.close();
+  })
+  .catch((err) => {
+    console.log('Ошибка. Запрос не выполнен: ', err);
   });
 };
 
@@ -64,16 +50,6 @@ popupDeleteCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup_type_image-popup');
 popupWithImage.setEventListeners();
-
-function loadingRate(isLoading, formSelector) {
-  const form = document.querySelector(formSelector);
-  const submitButton = form.querySelector('.content-form__save-button');
-  if (isLoading) {
-    submitButton.value = "Сохранение..."
-  } else {
-    submitButton.value = "Сохранить" 
-  }
-};
 
 function isLiked(arrLikes) {
   return !!arrLikes.find(like => like._id === userId);
@@ -84,8 +60,8 @@ function handleLikeClick(item) {
   const cardElement = document.querySelector(cardIdSelector);
   const likeButton = cardElement.querySelector('.card__like-button');
   const likeCounter = cardElement.querySelector('.card__like-counter');
-  const arrThis = item.likes;
-  const beLike = isLiked(arrThis, userId);
+  const arrLikes = item.likes;
+  const beLike = isLiked(arrLikes, userId);
   if (!beLike) {
     api.putLike(item._id)
     .then((card) => {
@@ -106,11 +82,20 @@ function handleLikeClick(item) {
 };
 
 function createCard(item) {
+  //сюда передать всю ф-цию handkeDeleteLike и в ней сначала открывать попап и далее
   const card = new Card(item, '#card', () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
   return card;  
 };
 
-const cardsList = new Section('.cards');
+// const cardsList = new Section({
+//   items: initialCards,	
+//   renderer: (item) => {	
+//     const cardItem = createCard(item);	
+//     cardsList.setItem(cardItem.getCard(item));  	
+//   }	
+// },	
+//   '.cards'	
+// );
 
 const userInfo = new UserInfo({nameSelector: '.profile__name', infoSelector: '.profile__description'});
 
@@ -122,15 +107,15 @@ function submitFormEditProfile(inputValues) {
   api.editUserInfo(currentUserInfo)
   .then(() => api.getUserInfo())
   .then((userInfo) => {   
-                        userName.textContent = userInfo.name;
-                        userAbout.textContent = userInfo.about;
-                        userAvatar.src = userInfo.avatar;
-                      })
+    userName.textContent = userInfo.name;
+    userAbout.textContent = userInfo.about;
+    userAvatar.src = userInfo.avatar;
+    popupEditProfile.close();
+  })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, '.content-form_type_profile');
   }); 
-  popupEditProfile.close();  
 };
 
 const popupEditProfile = new PopupWithForm('.popup_type_profile', submitFormEditProfile);
@@ -142,8 +127,6 @@ function addUserInfoForPopup() {
   jobInput.value = allInfo.info; 
 };
 
-addUserInfoForPopup();
-
 function submitFormAddCard(inputValues) {
   loadingRate(true, '.content-form_type_new-card');
   const item = {};
@@ -151,14 +134,14 @@ function submitFormAddCard(inputValues) {
   item.link = inputValues["link"];
   api.postNewCard(item)
   .then((res) => {  
-                    const card = createCard(res);
-                    cardsList.setItem(card.getCard(res))
-                  })
+    const card = createCard(res);
+    cardsList.setItem(card.getCard(res))
+    popupAddCard.close()
+ })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, '.content-form_type_new-card');
-  });
-  popupAddCard.close();       
+  });    
 };
 
 const popupAddCard = new PopupWithForm('.popup_type_new-card', submitFormAddCard);
@@ -167,17 +150,18 @@ popupAddCard.setEventListeners();
 function submitFormEditPhoto(inputs) {
   loadingRate(true, '.content-form_type_edit-photo');
   const currentUserInfo = {};
-  currentUserInfo.currentPhoto = inputs["photo-input"];
+  currentUserInfo.currentPhoto = inputs["photo"];
   api.editUserPhoto(currentUserInfo)
   .then(() => api.getUserInfo())
   .then((userInfo) => {   
-                userAvatar.src = userInfo.avatar;
+    userAvatar.src = userInfo.avatar;
+    popupEditPhoto.close();
   })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, '.content-form_type_edit-photo');
   }); 
-  popupEditPhoto.close();
+  
 };
 
 const popupEditPhoto = new PopupWithForm('.popup_type_edit-photo', submitFormEditPhoto);

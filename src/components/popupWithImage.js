@@ -1,4 +1,4 @@
-const { default: Popup } = require("./popup");
+import Popup from './popup.js';
 
 export default class PopupWithImage extends Popup {
   constructor(popupSelector) {

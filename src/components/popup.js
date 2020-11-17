@@ -14,7 +14,8 @@ export default class Popup {
   }
 
   _handleEscClose(evt) {
-    if (evt.keyCode === 27) {
+    const escCode = 27;
+    if (evt.keyCode === escCode) {
       this.close();
     }
   }

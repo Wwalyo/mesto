@@ -45,9 +45,9 @@ export default class FormValidator {
     });
     this._inputs.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
-                                                      this._checkInputValidity(inputElement)
-                                                      this._updateFormState();
-                                                    });
+        this._checkInputValidity(inputElement)
+        this._updateFormState();
+      });
     });
     document.addEventListener('DOMContentLoaded', () => {
       this._updateFormState();

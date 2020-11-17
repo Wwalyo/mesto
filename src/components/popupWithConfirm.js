@@ -1,4 +1,4 @@
-const { default: Popup } = require("./popup");
+import Popup from './popup.js';
 
 export default class PopupWithConfirm extends Popup {
   constructor(popupSelector, submitForm) {
@@ -15,18 +15,16 @@ export default class PopupWithConfirm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    console.log('PopupWithConfirm.setEventListeners');
-    console.log(this._form);
     this._form.addEventListener('submit', (evt) => { 
-                                                      evt.preventDefault();
-                                                      this._submitForm(this._form);
-                                                    });
+      evt.preventDefault();
+      this._submitForm(this._form);
+    });
   }
   close() {
     super.close();
     this._form.removeEventListener('submit', (evt) => { 
-                                                        evt.preventDefault();                                                
-                                                        this._submitForm(this._form.id);
-                                                      });
+      evt.preventDefault();                                                
+      this._submitForm(this._form.id);
+    });
   }
 }

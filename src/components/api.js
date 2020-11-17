@@ -11,13 +11,7 @@ export default class Api {
           return res.json();
         }
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
-      })
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      }); 
+      }) 
   }
   
   getInitialCards() {
@@ -28,12 +22,6 @@ export default class Api {
         }
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       })
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log('Ошибка. Запрос не выполнен: ', err);
-      }); 
   }
 
   editUserInfo({ currentName, currentInfo }) {
@@ -52,12 +40,6 @@ export default class Api {
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    }); 
   }
 
   editUserPhoto({ currentPhoto }) {
@@ -75,12 +57,6 @@ export default class Api {
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    }); 
   }
 
   postNewCard({ name, link }) {
@@ -98,12 +74,6 @@ export default class Api {
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    });
   }
 
   deleteCard(id) {
@@ -118,12 +88,6 @@ export default class Api {
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    });
   }
   
   putLike(id) {
@@ -137,12 +101,6 @@ export default class Api {
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    });
   }
   
   deleteLike(id) {
@@ -157,11 +115,5 @@ export default class Api {
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
     })
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log('Ошибка. Запрос не выполнен: ', err);
-    });
   }
 }
