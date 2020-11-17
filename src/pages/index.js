@@ -15,13 +15,9 @@ import {  nameInput,
           addCardButton, 
           editPhotoButton 
 } from '../constants.js'; 
-
 import './index.css';
-import { Promise } from 'core-js';
 
 let userId = "";
-
-
 
 const validateProfileForm = new formValidate({
   formSelector: '.content-form_type_profile',
@@ -48,9 +44,7 @@ const validateEditPhotoForm = new formValidate({
   inactiveButtonClass: 'content-form__save-button_disabled',
   inputErrorClass: 'content-form__input_type_error',
   errorClass: 'content-form__input-error_active'
-})
-
-
+});
 
 validateProfileForm.enableValidation();
 validateAddCardForm.enableValidation();
@@ -62,8 +56,8 @@ function submitDeleteCard(item) {
     const cardElement = document.querySelector('.card');
     cardElement.remove();
     popupDeleteCard.close();
-  })
-}
+  });
+};
 
 const popupDeleteCard = new PopupWithConfirm('.popup_type_delete-card', submitDeleteCard); 
 popupDeleteCard.setEventListeners();
@@ -79,17 +73,10 @@ function loadingRate(isLoading, formSelector) {
   } else {
     submitButton.value = "Сохранить" 
   }
-}
+};
 
 function isLiked(arrLikes) {
-  let res = '';
-  arrLikes.forEach((like) => {
-    if (like._id === userId) {
-      res = 1;
-    }
-  console.log(res);  
-  return res;
-  })
+  return !!arrLikes.find(like => like._id === userId);
 };
 
 function handleLikeClick(item) {
@@ -97,32 +84,31 @@ function handleLikeClick(item) {
   const cardElement = document.querySelector(cardIdSelector);
   const likeButton = cardElement.querySelector('.card__like-button');
   const likeCounter = cardElement.querySelector('.card__like-counter');
-
   const arrThis = item.likes;
-  //почему-то вот тут ниже всегда undefined, хотя res, который возвращает 
-  const beLike = isLiked(arrThis);
-  console.log(beLike);
+  const beLike = isLiked(arrThis, userId);
   if (!beLike) {
     api.putLike(item._id)
     .then((card) => {
       likeButton.classList.add('card__like-button_active'); 
-      likeCounter.textContent = card.likes.length; 
+      likeCounter.textContent = card.likes.length;
+      item.likes = card.likes;
     })
     .catch(error => console.log(error)); 
   } else {
     api.deleteLike(item._id)
     .then((card) => {
       likeButton.classList.remove('card__like-button_active'); 
-      likeCounter.textContent = card.likes.length; 
+      likeCounter.textContent = card.likes.length;
+      item.likes = card.likes; 
     })
     .catch(error => console.log(error)); 
   } 
-}  
+};
 
 function createCard(item) {
   const card = new Card(item, '#card', () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
   return card;  
-}
+};
 
 const cardsList = new Section('.cards');
 
@@ -136,17 +122,16 @@ function submitFormEditProfile(inputValues) {
   api.editUserInfo(currentUserInfo)
   .then(() => api.getUserInfo())
   .then((userInfo) => {   
-                userName.textContent = userInfo.name;
-                userAbout.textContent = userInfo.about;
-                userAvatar.src = userInfo.avatar;
-  })
+                        userName.textContent = userInfo.name;
+                        userAbout.textContent = userInfo.about;
+                        userAvatar.src = userInfo.avatar;
+                      })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, '.content-form_type_profile');
   }); 
   popupEditProfile.close();  
-}
-
+};
 
 const popupEditProfile = new PopupWithForm('.popup_type_profile', submitFormEditProfile);
 popupEditProfile.setEventListeners();
@@ -155,7 +140,7 @@ function addUserInfoForPopup() {
   const allInfo = userInfo.getUserInfo();
   nameInput.value = allInfo.name;
   jobInput.value = allInfo.info; 
-}
+};
 
 addUserInfoForPopup();
 
@@ -174,8 +159,7 @@ function submitFormAddCard(inputValues) {
     loadingRate(false, '.content-form_type_new-card');
   });
   popupAddCard.close();       
-  
-}
+};
 
 const popupAddCard = new PopupWithForm('.popup_type_new-card', submitFormAddCard);
 popupAddCard.setEventListeners();
@@ -194,7 +178,7 @@ function submitFormEditPhoto(inputs) {
     loadingRate(false, '.content-form_type_edit-photo');
   }); 
   popupEditPhoto.close();
-}
+};
 
 const popupEditPhoto = new PopupWithForm('.popup_type_edit-photo', submitFormEditPhoto);
 popupEditPhoto.setEventListeners();
@@ -217,7 +201,7 @@ Promise.all([
   userAvatar.src = userInfo.avatar;
   userId = userInfo._id;
   initialCards.forEach(item => {
-    console.log(item);
+    
     const cardItem = createCard(item);
     const card = cardItem.getCard(item);
     const likeButton = card.querySelector('.card__like-button');
@@ -234,8 +218,6 @@ Promise.all([
 .catch((err) => {
   console.log('Ошибка. Запрос не выполнен: ', err);
 }); 
-
-
 
 profileEditButton.addEventListener('click', () => {
                                                     addUserInfoForPopup();

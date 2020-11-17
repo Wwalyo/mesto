@@ -9,16 +9,10 @@ export default class Card {
 
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => this._handleLikeClick(this._item));
-
     this._deleteButton.addEventListener('click', () => {  this._handleDeleteClick(this._item)});
     this._imageBtn.addEventListener('click', () => this._handleImageClick());        
   }
 
-  // _handleLikeClick() {
-  //   this._likeButton.classList.toggle('card__like-button_active');  
-  // }
-
-  
   getCard(item) {
     this._cardImage = this._cardElement.querySelector('.card__image');
     this._cardName = this._cardElement.querySelector('.card__name');

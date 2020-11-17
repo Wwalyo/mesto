@@ -13,22 +13,20 @@ export default class PopupWithConfirm extends Popup {
     this._form.id = id;
   }
 
-  
   setEventListeners() {
     super.setEventListeners();
     console.log('PopupWithConfirm.setEventListeners');
     console.log(this._form);
-    this._form.addEventListener('submit', (evt) => { evt.preventDefault();
-                                                  this._submitForm(this._form);
-                                                });
+    this._form.addEventListener('submit', (evt) => { 
+                                                      evt.preventDefault();
+                                                      this._submitForm(this._form);
+                                                    });
   }
   close() {
     super.close();
-    this._form.removeEventListener('submit', (evt) => { evt.preventDefault();
-                                                  
-      console.log("заходим в колбек")
-      this._submitForm(this._form.id);
-    });
+    this._form.removeEventListener('submit', (evt) => { 
+                                                        evt.preventDefault();                                                
+                                                        this._submitForm(this._form.id);
+                                                      });
   }
-
 }
