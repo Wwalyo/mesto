@@ -1,10 +1,12 @@
+
 export default class Card {
-  constructor(item, cardSelector, handleImageClick, handleDeleteClick, handleLikeClick) {
+  constructor(item, cardSelector, userId, handleImageClick, handleDeleteClick, handleLikeClick) {
     this._item = item;
+    this._userId = userId;
     this._cardElement = document.querySelector(cardSelector).content.cloneNode(true);
-    this._handleImageClick = handleImageClick;
-    this._handleDeleteClick = handleDeleteClick;
-    this._handleLikeClick = handleLikeClick;
+    this._handleImageClick = handleImageClick.bind(this);
+    this._handleDeleteClick = handleDeleteClick.bind(this);
+    this._handleLikeClick = handleLikeClick.bind(this);
   }
 
   _setEventListeners() {
@@ -25,6 +27,13 @@ export default class Card {
     this._cardImage.alt = item.name;
     this._cardName.textContent = item.name;
     this._likeCounter.textContent = item.likes.length;
+    if (!!item.likes.find(like => like._id === this._userId)) {
+      this._likeButton.classList.add('card__like-button_active');
+    }
+    console.log(this._userId);
+    if (this._cardOwnerId !== this._userId) {
+      this._deleteButton.style.display = "none";
+    }
     this._setEventListeners();
     return  this._cardElement;   
   }

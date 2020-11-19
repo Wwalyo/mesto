@@ -18,25 +18,57 @@ import {
   editPhotoButton,
   profileFormConfig,
   addCardFormConfig,
-  editPhotoFormConfig
+  editPhotoFormConfig,
+  cardTemplateSelector
 } from '../utils/constants.js'; 
 
 import './index.css';
 
 let userId = "";
+let cardsList = [];
+
+const popupDeleteCardSelector = '.popup_type_delete-card';
+const popupWithImageSelector = '.popup_type_image-popup';
+const popupProfileSelector = '.popup_type_profile';
+const popupEditPhotoSelector = '.popup_type_edit-photo';
+const popupNewCardSelector ='.popup_type_new-card';
+const profileFormSelector = '.content-form_type_profile';
+const newCardFormSelector = '.content-form_type_new-card';
+const editPhotoFormSelector = '.content-form_type_edit-photo';
+const nameSelector = '.profile__name';
+const infoSelector = '.profile__description';
+const photoSelector = '.profile__photo';
+const likeButtonSelector = '.card__like-button';
+const likeCounterSelector = '.card__like-counter';
+const likeButtonActiveSelector = 'card__like-button_active';
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-17',
+  headers: {
+    authorization: '5ed2afeb-ad65-4caf-aa08-0c033c043ac1',
+    'Content-Type': 'application/json'
+  }
+});
+
+const userInfo = new UserInfo({ nameSelector, infoSelector, photoSelector });
+
+api.getUserInfo()
+.then((userInfoFromServer) => {
+  userInfo.setUserInfo(userInfoFromServer); 
+  userId = userInfoFromServer._id;
+}) 
+.catch((err) => {
+  console.log('Ошибка. Запрос не выполнен: ', err);
+});
 
 const validateProfileForm = new FormValidate(profileFormConfig);
 const validateAddCardForm = new FormValidate(addCardFormConfig);
 const validateEditPhotoForm = new FormValidate(editPhotoFormConfig);
 
-validateProfileForm.enableValidation();
-validateAddCardForm.enableValidation();
-validateEditPhotoForm.enableValidation();
-
 function submitDeleteCard(item) {
   api.deleteCard(item.id)
   .then(() => {
-    const cardElement = document.querySelector('.card');
+    const cardElement = document.querySelector(`#id${item.id}`);
     cardElement.remove();
     popupDeleteCard.close();
   })
@@ -45,10 +77,10 @@ function submitDeleteCard(item) {
   });
 };
 
-const popupDeleteCard = new PopupWithConfirm('.popup_type_delete-card', submitDeleteCard); 
+const popupDeleteCard = new PopupWithConfirm(popupDeleteCardSelector, submitDeleteCard); 
 popupDeleteCard.setEventListeners();
 
-const popupWithImage = new PopupWithImage('.popup_type_image-popup');
+const popupWithImage = new PopupWithImage(popupWithImageSelector);
 popupWithImage.setEventListeners();
 
 function isLiked(arrLikes) {
@@ -58,14 +90,14 @@ function isLiked(arrLikes) {
 function handleLikeClick(item) {
   const cardIdSelector = "#id" + item._id;
   const cardElement = document.querySelector(cardIdSelector);
-  const likeButton = cardElement.querySelector('.card__like-button');
-  const likeCounter = cardElement.querySelector('.card__like-counter');
+  const likeButton = cardElement.querySelector(likeButtonSelector);
+  const likeCounter = cardElement.querySelector(likeCounterSelector);
   const arrLikes = item.likes;
   const beLike = isLiked(arrLikes, userId);
   if (!beLike) {
     api.putLike(item._id)
     .then((card) => {
-      likeButton.classList.add('card__like-button_active'); 
+      likeButton.classList.add(likeButtonActiveSelector); 
       likeCounter.textContent = card.likes.length;
       item.likes = card.likes;
     })
@@ -73,7 +105,7 @@ function handleLikeClick(item) {
   } else {
     api.deleteLike(item._id)
     .then((card) => {
-      likeButton.classList.remove('card__like-button_active'); 
+      likeButton.classList.remove(likeButtonActiveSelector); 
       likeCounter.textContent = card.likes.length;
       item.likes = card.likes; 
     })
@@ -81,26 +113,38 @@ function handleLikeClick(item) {
   } 
 };
 
+
+
 function createCard(item) {
-  //сюда передать всю ф-цию handkeDeleteLike и в ней сначала открывать попап и далее
-  const card = new Card(item, '#card', () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
+  const card = new Card(item, cardTemplateSelector, userId, () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
   return card;  
 };
 
-// const cardsList = new Section({
-//   items: initialCards,	
-//   renderer: (item) => {	
-//     const cardItem = createCard(item);	
-//     cardsList.setItem(cardItem.getCard(item));  	
-//   }	
-// },	
-//   '.cards'	
-// );
+Promise.all([
+  api.getUserInfo(), 
+  api.getInitialCards()
+])
+.then(([userInfoFromServer, initialCards]) => {
+  userInfo.setUserInfo(userInfoFromServer); 
+  userId = userInfoFromServer._id;
+  cardsList = new Section({
+    items: initialCards,
+    renderer: (item) => {
+      const cardItem = createCard(item);	
+      cardsList.setItem(cardItem.getCard(item));  	
+    }	
+  },	
+    '.cards'	
+  )
+  cardsList.renderItems(initialCards);
+})
+.catch((err) => {
+  console.log('Ошибка. Запрос не выполнен: ', err);
+});
 
-const userInfo = new UserInfo({nameSelector: '.profile__name', infoSelector: '.profile__description'});
 
 function submitFormEditProfile(inputValues) {
-  loadingRate(true, '.content-form_type_profile');
+  loadingRate(true, profileFormSelector);
   const currentUserInfo = {};
   currentUserInfo.currentName = inputValues["name-input"];
   currentUserInfo.currentInfo = inputValues["description-input"];
@@ -114,11 +158,11 @@ function submitFormEditProfile(inputValues) {
   })
   .catch(error => console.log(error))
   .finally(() => {
-    loadingRate(false, '.content-form_type_profile');
+    loadingRate(false, profileFormSelector);
   }); 
 };
 
-const popupEditProfile = new PopupWithForm('.popup_type_profile', submitFormEditProfile);
+const popupEditProfile = new PopupWithForm(popupProfileSelector, submitFormEditProfile);
 popupEditProfile.setEventListeners();
 
 function addUserInfoForPopup() {
@@ -128,27 +172,28 @@ function addUserInfoForPopup() {
 };
 
 function submitFormAddCard(inputValues) {
-  loadingRate(true, '.content-form_type_new-card');
+  loadingRate(true, newCardFormSelector);
   const item = {};
   item.name = inputValues["place-name"];
   item.link = inputValues["link"];
   api.postNewCard(item)
   .then((res) => {  
     const card = createCard(res);
-    cardsList.setItem(card.getCard(res))
-    popupAddCard.close()
+    cardsList.setItem(card.getCard(res));
+    popupAddCard.close();
+    popupAddCard.reset();
  })
   .catch(error => console.log(error))
   .finally(() => {
-    loadingRate(false, '.content-form_type_new-card');
+    loadingRate(false, newCardFormSelector);
   });    
 };
 
-const popupAddCard = new PopupWithForm('.popup_type_new-card', submitFormAddCard);
+const popupAddCard = new PopupWithForm(popupNewCardSelector, submitFormAddCard);
 popupAddCard.setEventListeners();
 
 function submitFormEditPhoto(inputs) {
-  loadingRate(true, '.content-form_type_edit-photo');
+  loadingRate(true, editPhotoFormSelector);
   const currentUserInfo = {};
   currentUserInfo.currentPhoto = inputs["photo"];
   api.editUserPhoto(currentUserInfo)
@@ -159,57 +204,29 @@ function submitFormEditPhoto(inputs) {
   })
   .catch(error => console.log(error))
   .finally(() => {
-    loadingRate(false, '.content-form_type_edit-photo');
+    loadingRate(false, editPhotoFormSelector);
   }); 
   
 };
 
-const popupEditPhoto = new PopupWithForm('.popup_type_edit-photo', submitFormEditPhoto);
+const popupEditPhoto = new PopupWithForm(popupEditPhotoSelector, submitFormEditPhoto);
 popupEditPhoto.setEventListeners();
 
-const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-17',
-  headers: {
-    authorization: '5ed2afeb-ad65-4caf-aa08-0c033c043ac1',
-    'Content-Type': 'application/json'
-  }
-}); 
+ 
 
-Promise.all([
-  api.getUserInfo(), 
-  api.getInitialCards()
-])
-.then(([userInfo, initialCards]) => {
-  userName.textContent = userInfo.name;
-  userAbout.textContent = userInfo.about;
-  userAvatar.src = userInfo.avatar;
-  userId = userInfo._id;
-  initialCards.forEach(item => {
-    
-    const cardItem = createCard(item);
-    const card = cardItem.getCard(item);
-    const likeButton = card.querySelector('.card__like-button');
-    const deleteButton = card.querySelector('.card__trash-button');
-    if (isLiked(item.likes)) {
-      likeButton.classList.add('card__like-button_active');
-    }
-    if (cardItem._cardOwnerId !== userInfo._id) {
-      deleteButton.style.display = "none";
-    }
-    cardsList.setItem(card);
-  })    
-})
-.catch((err) => {
-  console.log('Ошибка. Запрос не выполнен: ', err);
-}); 
+
 
 profileEditButton.addEventListener('click', () => {
-                                                    addUserInfoForPopup();
-                                                    popupEditProfile.open();
-                                                  });
-addCardButton.addEventListener('click', () => {                                                
-                                                popupAddCard.open()
-                                              });
-editPhotoButton.addEventListener('click', () => {                                                  
-                                                  popupEditPhoto.open()
-                                                });
+  addUserInfoForPopup();
+  validateProfileForm.enableValidation();
+  popupEditProfile.open();
+});
+addCardButton.addEventListener('click', () => {
+  validateAddCardForm.enableValidation();
+  popupAddCard.open();
+
+});
+editPhotoButton.addEventListener('click', () => {
+  popupEditPhoto.open()
+  validateEditPhotoForm.enableValidation();
+});
