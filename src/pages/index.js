@@ -65,19 +65,19 @@ const validateProfileForm = new FormValidate(profileFormConfig);
 const validateAddCardForm = new FormValidate(addCardFormConfig);
 const validateEditPhotoForm = new FormValidate(editPhotoFormConfig);
 
-function submitDeleteCard(item) {
-  api.deleteCard(item.id)
+function handleDeleteCard(popup, cardId) {
+  api.deleteCard(cardId)
   .then(() => {
-    const cardElement = document.querySelector(`#id${item.id}`);
+    const cardElement = document.querySelector(`#id${cardId}`);
     cardElement.remove();
-    popupDeleteCard.close();
+    popup.close();
   })
   .catch((err) => {
     console.log('Ошибка. Запрос не выполнен: ', err);
   });
 };
 
-const popupDeleteCard = new PopupWithConfirm(popupDeleteCardSelector, submitDeleteCard); 
+const popupDeleteCard = new PopupWithConfirm(popupDeleteCardSelector); 
 popupDeleteCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage(popupWithImageSelector);
@@ -113,10 +113,17 @@ function handleLikeClick(item) {
   } 
 };
 
-
-
 function createCard(item) {
-  const card = new Card(item, cardTemplateSelector, userId, () => {popupWithImage.open(item)}, () => {popupDeleteCard.open(item._id)}, handleLikeClick);
+  const card = new Card(
+    item, 
+    cardTemplateSelector, 
+    userId, 
+    () => {popupWithImage.open(item)}, 
+    () => {
+    popupDeleteCard.setOnSubmit(() => handleDeleteCard(popupDeleteCard, item._id));
+    popupDeleteCard.open();
+    }, 
+    handleLikeClick);
   return card;  
 };
 
@@ -211,10 +218,6 @@ function submitFormEditPhoto(inputs) {
 
 const popupEditPhoto = new PopupWithForm(popupEditPhotoSelector, submitFormEditPhoto);
 popupEditPhoto.setEventListeners();
-
- 
-
-
 
 profileEditButton.addEventListener('click', () => {
   addUserInfoForPopup();

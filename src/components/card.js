@@ -30,7 +30,6 @@ export default class Card {
     if (!!item.likes.find(like => like._id === this._userId)) {
       this._likeButton.classList.add('card__like-button_active');
     }
-    console.log(this._userId);
     if (this._cardOwnerId !== this._userId) {
       this._deleteButton.style.display = "none";
     }
