@@ -19,7 +19,8 @@ import {
   profileFormConfig,
   addCardFormConfig,
   editPhotoFormConfig,
-  cardTemplateSelector
+  cardTemplateSelector,
+  cardsSelector
 } from '../utils/constants.js'; 
 
 import './index.css';
@@ -141,7 +142,7 @@ Promise.all([
       cardsList.setItem(cardItem.getCard(item));  	
     }	
   },	
-    '.cards'	
+    cardsSelector	
   )
   cardsList.renderItems(initialCards);
 })
@@ -160,12 +161,12 @@ function submitFormEditProfile(inputValues) {
   .then((userInfo) => {   
     userName.textContent = userInfo.name;
     userAbout.textContent = userInfo.about;
-    userAvatar.src = userInfo.avatar;
-    popupEditProfile.close();
+    userAvatar.src = userInfo.avatar;    
   })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, profileFormSelector);
+    popupEditProfile.close();
   }); 
 };
 
@@ -187,12 +188,12 @@ function submitFormAddCard(inputValues) {
   .then((res) => {  
     const card = createCard(res);
     cardsList.setItem(card.getCard(res));
-    popupAddCard.close();
     popupAddCard.reset();
  })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, newCardFormSelector);
+    popupAddCard.close();
   });    
 };
 
@@ -206,12 +207,12 @@ function submitFormEditPhoto(inputs) {
   api.editUserPhoto(currentUserInfo)
   .then(() => api.getUserInfo())
   .then((userInfo) => {   
-    userAvatar.src = userInfo.avatar;
-    popupEditPhoto.close();
+    userAvatar.src = userInfo.avatar;    
   })
   .catch(error => console.log(error))
   .finally(() => {
     loadingRate(false, editPhotoFormSelector);
+    popupEditPhoto.close();
   }); 
   
 };

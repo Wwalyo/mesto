@@ -9,13 +9,14 @@ export default class UserInfo {
     const profile = {};
     profile.name = this._name.textContent;
     profile.info = this._info.textContent;
+    profile.photo = this._photo.src;
     return profile;
   }
   
   setUserInfo(userInfoFromServer) {
-      this._name.textContent = userInfoFromServer.name;
-      this._info.textContent = userInfoFromServer.about;
-      this._photo.src = userInfoFromServer.avatar;
+    if (userInfoFromServer.name) this._name.textContent = userInfoFromServer.name;
+    if (userInfoFromServer.about) this._info.textContent = userInfoFromServer.about;
+    if (userInfoFromServer.avatar) this._photo.src = userInfoFromServer.avatar;
   }
 }
     
