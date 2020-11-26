@@ -9,7 +9,7 @@ export const profileEditButton = document.querySelector('.profile__edit-button')
 export const addCardButton = document.querySelector('.control-panel__add-button');
 export const editPhotoButton = document.querySelector('.profile__photo-overlay');
 export const cardTemplateSelector = '#card';
-export const cardsSelectors = '.cards';
+export const cardsSelector = '.cards';
 
 export const profileFormConfig = {
     formSelector: '.content-form_type_profile',
